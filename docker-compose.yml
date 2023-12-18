@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    container_name: plu-mysql
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: "plu"
+      MYSQL_PASSWORD: "plu"
+      MYSQL_DATABASE: "plu"
+    ports:
+      - "3306:3306"
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+
+  redis:
+    image: redis:alpine
+    container_name: plu-redis
+    command: redis-server --port 6379
+    hostname: redis_boot
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
