@@ -26,15 +26,25 @@ repositories {
 }
 
 dependencies {
+	// Health Check
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+	// DB
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("com.mysql:mysql-connector-j")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.session:spring-session-data-redis")
+
+	// tools
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+
+	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	compileOnly("org.projectlombok:lombok")
-	runtimeOnly("com.mysql:mysql-connector-j")
-	annotationProcessor("org.projectlombok:lombok")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

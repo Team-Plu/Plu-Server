@@ -5,6 +5,12 @@ spring:
     username: ${AWS_RDS_USERNAME_DEV}
     password: ${AWS_RDS_PASSWORD_DEV}
 
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -15,6 +21,12 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 1000
+
+  data:
+    redis:
+      host: ${AWS_ELASTICACHE_HOST_DEV}
+      port: ${AWS_ELASTICACHE_PORT_DEV}
+
 
 #cloud:
 #  aws:
