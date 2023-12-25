@@ -16,12 +16,12 @@ open class BaseEntity(
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    @Column(name = "CREATED_AT", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private val createdAt: LocalDateTime,
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    @Column(name = "MODIFIED_AT", nullable = false)
+    @Column(name = "modified_at", nullable = false)
     private val modifiedAt: LocalDateTime,
 ) {
 }
