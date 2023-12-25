@@ -1,0 +1,12 @@
+package com.th.plu.domain.member
+
+import lombok.AccessLevel
+import lombok.Getter
+import lombok.RequiredArgsConstructor
+
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+enum class MemberSocialType(private val value: String) {
+    KAKAO("카카오톡"),
+    APPLE("애플");
+}
