@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor
 @Embeddable
 class SocialInfo(
 
-    @Column(name = "SOCIAL_ID", nullable = false, length = 300)
+    @Column(name = "social_id", nullable = false, length = 300)
     private val socialId: String,
 
-    @Column(name = "SOCIAL_TYPE", nullable = false, length = 30)
+    @Column(name = "social_type", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private val socialType : MemberSocialType
 )
