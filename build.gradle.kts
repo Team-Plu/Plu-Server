@@ -6,10 +6,12 @@ plugins {
 	kotlin("jvm") version "1.9.20"
 	kotlin("plugin.spring") version "1.9.20"
 	kotlin("plugin.jpa") version "1.9.20"
+	kotlin("kapt") version "1.9.20"
 }
 
 group = "com.th"
 version = "0.0.1-SNAPSHOT"
+val queryDslVersion = "5.0.0" // QueryDSL Version Setting
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -30,10 +32,18 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 	// DB
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.session:spring-session-data-redis")
+
+	// JPA
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	// QueryDSL
+	implementation ("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
+	kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
+	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
 	// tools
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -57,4 +67,23 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+/**
+ * QueryDSL Build Options
+ */
+val querydslDir = "build/querydsl/generated"
+
+sourceSets {
+	getByName("main").kotlin.srcDirs(querydslDir)
+}
+
+tasks.withType<JavaCompile> {
+	options.generatedSourceOutputDirectory.set(file(querydslDir))
+}
+
+tasks.named("clean") {
+	doLast {
+		file(querydslDir).deleteRecursively()
+	}
 }
