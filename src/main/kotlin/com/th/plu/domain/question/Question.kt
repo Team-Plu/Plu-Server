@@ -7,7 +7,6 @@ import lombok.AccessLevel
 import lombok.AllArgsConstructor
 import lombok.Builder
 import lombok.NoArgsConstructor
-import java.time.LocalDateTime
 
 
 @Table(name = "questions")
@@ -33,5 +32,5 @@ class Question(
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     private var answers: List<Answer>
 
-) : BaseEntity(LocalDateTime.now(), LocalDateTime.now()) {
+) : BaseEntity() {
 }

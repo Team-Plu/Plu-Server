@@ -8,7 +8,6 @@ import lombok.AccessLevel
 import lombok.AllArgsConstructor
 import lombok.Builder
 import lombok.NoArgsConstructor
-import java.time.LocalDateTime
 
 
 @Table(name = "answers")
@@ -23,7 +22,7 @@ class Answer(
     private var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name="member_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private var member: Member,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
@@ -36,5 +35,5 @@ class Answer(
     @Column(name = "is_public", nullable = false)
     private var isPublic: Boolean
 
-): BaseEntity(LocalDateTime.now(), LocalDateTime.now()) {
+) : BaseEntity() {
 }
