@@ -6,7 +6,6 @@ import lombok.AccessLevel
 import lombok.AllArgsConstructor
 import lombok.Builder
 import lombok.NoArgsConstructor
-import java.time.LocalDateTime
 
 @Table(name = "settings")
 @Entity
@@ -26,5 +25,5 @@ class Setting(
     @JoinColumn(name = "member_id", nullable = false)
     private var member: Member
 
-) : BaseEntity(LocalDateTime.now(), LocalDateTime.now()) {
+) : BaseEntity() {
 }
