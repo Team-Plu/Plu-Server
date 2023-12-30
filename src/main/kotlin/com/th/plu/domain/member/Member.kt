@@ -3,21 +3,14 @@ package com.th.plu.domain.member
 import com.th.plu.domain.answer.Answer
 import com.th.plu.domain.common.BaseEntity
 import jakarta.persistence.*
-import lombok.AccessLevel
-import lombok.AllArgsConstructor
-import lombok.Builder
-import lombok.NoArgsConstructor
 
 @Table(name = "members")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
 class Member(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private var id: Long? = null,
+    private val id: Long? = null,
 
     @Embedded
     private var socialInfo: SocialInfo,

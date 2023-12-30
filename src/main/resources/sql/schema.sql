@@ -28,9 +28,9 @@ CREATE TABLE `settings`
 CREATE TABLE `questions`
 (
     `question_id`      bigint auto_increment primary key,
-    `element_type`     varchar(30)  NULL,
-    `question_title`   varchar(100) NULL,
-    `question_content` varchar(300) NULL,
+    `element_type`     varchar(30)  NOT NULL,
+    `question_title`   varchar(100) NOT NULL,
+    `question_content` varchar(300) NOT NULL,
     `created_at`       datetime     NOT NULL,
     `modified_at`      datetime     NOT NULL
 );
@@ -40,8 +40,8 @@ CREATE TABLE `answers`
     `answer_id`      bigint auto_increment primary key,
     `member_id`      bigint   NOT NULL,
     `question_id`    bigint   NOT NULL,
-    `answer_content` text     NULL,
-    `is_public`      boolean  NULL,
+    `answer_content` text     NOT NULL,
+    `is_public`      boolean  NOT NULL,
     `created_at`     datetime NOT NULL,
     `modified_at`    datetime NOT NULL
 );
