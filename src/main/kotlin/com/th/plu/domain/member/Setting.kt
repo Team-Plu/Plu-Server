@@ -2,21 +2,14 @@ package com.th.plu.domain.member
 
 import com.th.plu.domain.common.BaseEntity
 import jakarta.persistence.*
-import lombok.AccessLevel
-import lombok.AllArgsConstructor
-import lombok.Builder
-import lombok.NoArgsConstructor
 
 @Table(name = "settings")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
 class Setting(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setting_id")
-    private var id: Long? = null,
+    private val id: Long? = null,
 
     @Column(name = "notification_status", nullable = false)
     private var notificationStatus: Boolean,

@@ -3,21 +3,14 @@ package com.th.plu.domain.question
 import com.th.plu.domain.answer.Answer
 import com.th.plu.domain.common.BaseEntity
 import jakarta.persistence.*
-import lombok.AccessLevel
-import lombok.AllArgsConstructor
-import lombok.Builder
-import lombok.NoArgsConstructor
 
 
 @Table(name = "questions")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
 class Question(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
-    private var id: Long? = null,
+    private val id: Long? = null,
 
     @Column(name = "element_type", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
