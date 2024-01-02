@@ -9,14 +9,14 @@ class Setting(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setting_id")
-    private val id: Long? = null,
+    val id: Long? = null,
 
     @Column(name = "notification_status", nullable = false)
-    private var notificationStatus: Boolean,
+    var notificationStatus: Boolean,
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
     @JoinColumn(name = "member_id", nullable = false)
-    private var member: Member
+    var member: Member
 
 ) : BaseEntity() {
 }

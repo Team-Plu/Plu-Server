@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor
 class SocialInfo(
 
     @Column(name = "social_id", nullable = false, length = 300)
-    private val socialId: String,
+    val socialId: String,
 
     @Column(name = "social_type", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private val socialType : MemberSocialType
+    val socialType : MemberSocialType
 )
