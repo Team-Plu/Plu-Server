@@ -10,26 +10,26 @@ class Member(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private val id: Long? = null,
+    val id: Long? = null,
 
     @Embedded
-    private var socialInfo: SocialInfo,
+    var socialInfo: SocialInfo,
 
     @Column(name = "member_role", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private var role: MemberRole,
+    var role: MemberRole,
 
     @Column(name = "fcm_token", nullable = false, length = 300)
-    private var fcmToken: String,
+    var fcmToken: String,
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    private var setting: Setting,
+    var setting: Setting,
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    private var onboarding: Onboarding,
+    var onboarding: Onboarding,
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    private var answers: List<Answer>,
+    var answers: List<Answer>,
 
     ) : BaseEntity() {
 }

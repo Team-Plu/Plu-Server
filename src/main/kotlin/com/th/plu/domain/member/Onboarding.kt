@@ -9,10 +9,10 @@ class Onboarding(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "onboarding_id")
-    private val id: Long? = null,
+    val id: Long? = null,
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
     @JoinColumn(name = "member_id", nullable = false)
-    private var member: Member,
+    var member: Member,
 ) : BaseEntity() {
 }
