@@ -50,6 +50,9 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 
+	// swagger
+	implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+
 	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
