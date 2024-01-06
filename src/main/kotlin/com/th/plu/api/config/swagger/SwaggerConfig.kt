@@ -1,32 +1,37 @@
 package com.th.plu.api.config.swagger
 
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
-import org.slf4j.LoggerFactory
-import org.springdoc.core.utils.SpringDocUtils
-import org.springframework.web.server.WebSession
+import io.swagger.v3.oas.models.security.SecurityRequirement
+import io.swagger.v3.oas.models.security.SecurityScheme
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
 @Configuration
 class SwaggerConfig {
-    private val logger = LoggerFactory.getLogger(SwaggerConfig::class.java)
-
-    init {
-        SpringDocUtils.getConfig().addRequestWrapperToIgnore(
-                WebSession::class.java,
-        )
+    companion object {
+        private const val TITLE = "Plu API Server"
+        private const val DESCRIPTION = "Plu API Docs"
+        private const val VERSION = "1.0.0"
     }
 
     @Bean
-    fun openApi(): OpenAPI {
-        logger.debug("Starting Swagger")
+    fun openAPI(): OpenAPI {
+        val info = Info()
+                .title(TITLE)
+                .description(DESCRIPTION)
+                .version(VERSION)
+
+        val securityScheme = SecurityScheme()
+                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+                .`in`(SecurityScheme.In.HEADER).name("Authorization")
+        val securityRequirement = SecurityRequirement().addList("Bearer Token")
 
         return OpenAPI()
-                .info(
-                        Info()
-                                .title("Plu API Server")
-                                .version("v1.0.0")
-                                .description("Plu API Docs")
-                )
+                .components(Components().addSecuritySchemes("Bearer Token", securityScheme))
+                .security(listOf(securityRequirement))
+                .info(info)
     }
+
 }
