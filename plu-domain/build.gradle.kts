@@ -11,8 +11,6 @@ val queryDslVersion = "5.0.0" // QueryDSL Version Setting
 dependencies {
 	// DB
 	runtimeOnly("com.mysql:mysql-connector-j")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("org.springframework.session:spring-session-data-redis")
 
 	// JPA
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
