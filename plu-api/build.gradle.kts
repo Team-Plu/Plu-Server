@@ -3,8 +3,9 @@ tasks.jar {
 }
 
 dependencies {
-	implementation(project(":plu-common"))
+	implementation(project(":plu-domain"))
 	implementation(project(":plu-external"))
+	implementation(project(":plu-common"))
 
 	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
