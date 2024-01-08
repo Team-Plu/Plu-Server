@@ -1,4 +1,4 @@
-package com.th.plu.domain
+package com.th.plu.notification
 
 import com.th.plu.common.PluCommonRoot
 import com.th.plu.external.PluExternalRoot
