@@ -9,7 +9,7 @@ spring:
     init:
       mode: never
       schema-locations: classpath:sql/schema.sql
-      data-locations: classpath:sql/data.sql
+      #data-locations: classpath:sql/data.sql
 
   jpa:
     hibernate:
@@ -22,10 +22,10 @@ spring:
         format_sql: true
         default_batch_fetch_size: 1000
 
-  data:
-    redis:
-      host: ${AWS_ELASTICACHE_HOST_DEV}
-      port: ${AWS_ELASTICACHE_PORT_DEV}
+#  data:
+#    redis:
+#      host: ${AWS_ELASTICACHE_HOST_DEV}
+#      port: ${AWS_ELASTICACHE_PORT_DEV}
 
 
 #cloud:
