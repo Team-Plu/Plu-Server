@@ -1,3 +1,6 @@
+plugins {
+	kotlin("jvm")
+}
 tasks.jar {
 	enabled = true
 }
@@ -13,13 +16,14 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j")
 
 	// JPA
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	api("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	// QueryDSL
 	implementation ("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
 	kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
 	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
 	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+	implementation(kotlin("stdlib-jdk8"))
 }
 
 /**
@@ -39,4 +43,10 @@ tasks.named("clean") {
 	doLast {
 		file(querydslDir).deleteRecursively()
 	}
+}
+repositories {
+	mavenCentral()
+}
+kotlin {
+	jvmToolchain(17)
 }

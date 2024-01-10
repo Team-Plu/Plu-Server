@@ -22,29 +22,29 @@ spring:
         format_sql: true
         default_batch_fetch_size: 1000
 
-#  data:
-#    redis:
-#      host: ${AWS_ELASTICACHE_HOST_DEV}
-#      port: ${AWS_ELASTICACHE_PORT_DEV}
+  data:
+    redis:
+      host: ${AWS_ELASTICACHE_HOST_DEV}
+      port: ${AWS_ELASTICACHE_PORT_DEV}
 
 
-#cloud:
-#  aws:
-#    credentials:
-#      accessKey: ${AWS_ACCESS_KEY_DEV}
-#      secretKey: ${AWS_SECRET_KEY_DEV}
-#    region:
-#      static: ${AWS_REGION_DEV}
-#    stack:
-#      auto: false
-#    sqs:
-#      notification:
-#        name: ${AWS_SQS_NOTIFICATION_NAME_DEV}
-#        url: ${AWS_SQS_NOTIFICATION_URL_DEV}
-#      api:
-#        name: ${AWS_SQS_API_NAME_DEV}
-#        url: ${AWS_SQS_API_URL_DEV}
-#
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_DEV}
+      secretKey: ${AWS_SECRET_KEY_DEV}
+    region:
+      static: ${AWS_REGION_DEV}
+    stack:
+      auto: false
+    sqs:
+      notification:
+        name: ${AWS_SQS_NOTIFICATION_NAME_DEV}
+        url: ${AWS_SQS_NOTIFICATION_URL_DEV}
+      api:
+        name: ${AWS_SQS_API_NAME_DEV}
+        url: ${AWS_SQS_API_URL_DEV}
+
 #  firebase:
 #    credentials:
 #      uri: ${FIREBASE_URI}
@@ -53,7 +53,3 @@ spring:
 #
 #jwt:
 #  secret: ${JWT_SECRET_DEV}
-#
-#slack:
-#  webhook:
-#    url: ${SLACK_WEBHOOK_URL_DEV}

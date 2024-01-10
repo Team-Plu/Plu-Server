@@ -1,5 +1,8 @@
+plugins {
+	kotlin("jvm")
+}
 tasks.jar {
-	enabled = true
+	enabled = false
 }
 
 dependencies {
@@ -13,4 +16,11 @@ dependencies {
 	// Redis
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.session:spring-session-data-redis")
+	implementation(kotlin("stdlib-jdk8"))
+}
+repositories {
+	mavenCentral()
+}
+kotlin {
+	jvmToolchain(17)
 }
