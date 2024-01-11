@@ -13,8 +13,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 
 	// SQS
-	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
-	implementation("org.springframework.cloud:spring-cloud-aws-messaging:2.2.6.RELEASE")
     implementation(kotlin("stdlib-jdk8"))
 }
 repositories {

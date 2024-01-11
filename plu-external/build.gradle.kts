@@ -13,7 +13,8 @@ tasks.bootJar {
 dependencies {
 
 	// SQS
-	api("org.springframework.cloud:spring-cloud-aws-messaging:2.2.6.RELEASE")
+	api(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1"))
+	api("io.awspring.cloud:spring-cloud-aws-starter-sqs")
 	implementation(kotlin("stdlib-jdk8"))
 
 	// firebase-cloud

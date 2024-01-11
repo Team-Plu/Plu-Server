@@ -1,8 +1,8 @@
 package com.th.plu.external.sqs.sender
 
-import com.amazonaws.services.sqs.model.SendMessageResult
-import com.th.plu.external.sqs.dto.SqsMessageDto
+import com.th.plu.external.sqs.dto.FirebaseMessageDto
+import io.awspring.cloud.sqs.operations.SendResult
 
 interface SqsSender {
-    fun sendMessage(message: SqsMessageDto): SendMessageResult
+    fun sendFirebaseMessage(message: FirebaseMessageDto): SendResult<String>
 }

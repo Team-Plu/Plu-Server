@@ -12,8 +12,9 @@ class NotificationService(private val sqsSender: SqsSender, private val memberRe
 
     fun sendMessageToAllMember(messageRequest: MessageSendRequest) {
         for (member in memberRepository.findAll()) {
-            val sqsMessageDto = FirebaseMessageDto(MessageType.FIREBASE, member.fcmToken, messageRequest.title, messageRequest.body)
-            sqsSender.sendMessage(sqsMessageDto)
+            val sqsMessageDto =
+                FirebaseMessageDto(MessageType.FIREBASE, member.fcmToken, messageRequest.title, messageRequest.body)
+            sqsSender.sendFirebaseMessage(sqsMessageDto)
         }
     }
 }

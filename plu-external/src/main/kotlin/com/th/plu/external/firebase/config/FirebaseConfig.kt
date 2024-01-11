@@ -4,7 +4,6 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.messaging.FirebaseMessaging
-import com.th.plu.external.sqs.dto.FirebaseMessageDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,12 +13,12 @@ import java.io.InputStream
 @Configuration
 class FirebaseConfig {
 
-    @Value("\${cloud.firebase.config.path}")
-    var firebaseConfigFilePath : String? = null
+    @Value("\${spring.cloud.firebase.config.path}")
+    var firebaseConfigPath: String? = null
 
     @Bean
     fun firebaseMessaging(): FirebaseMessaging {
-        val resource = ClassPathResource(firebaseConfigFilePath.toString())
+        val resource = ClassPathResource(firebaseConfigPath.toString())
         val refreshToken = resource.inputStream
 
         val firebaseApp = makeApp(FirebaseApp.getApps(), refreshToken)
@@ -27,7 +26,7 @@ class FirebaseConfig {
     }
 
     private fun makeApp(firebaseApps: List<FirebaseApp>, refreshToken: InputStream): FirebaseApp {
-        if(firebaseApps.isNotEmpty()) {
+        if (firebaseApps.isNotEmpty()) {
             for (app in firebaseApps) {
                 if (app.name.equals(FirebaseApp.DEFAULT_APP_NAME))
                     return app
