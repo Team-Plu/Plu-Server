@@ -11,14 +11,17 @@ tasks.bootJar {
 
 
 dependencies {
+	implementation(project(":plu-common"))
 
 	// SQS
 	api(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1"))
 	api("io.awspring.cloud:spring-cloud-aws-starter-sqs")
-	implementation(kotlin("stdlib-jdk8"))
 
-	// firebase-cloud
-	implementation("com.google.firebase:firebase-admin:6.8.1")
+
+	// WebFlux
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+	implementation(kotlin("stdlib-jdk8"))
 }
 repositories {
 	mavenCentral()

@@ -1,4 +1,4 @@
-package com.th.plu.external.firebase.config
+package com.th.plu.notification.firebase.config
 
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp

@@ -40,11 +40,12 @@ spring:
       sqs:
         queue:
           name: ${AWS_SQS_NOTIFICATION_NAME_DEV}
-          url: ${AWS_SQS_NOTIFICATION_URL_DEV}
 
     firebase:
-      credentials:
-        uri: ${FIREBASE_URI}
+      auth:
+        uri: https://www.googleapis.com/auth/cloud-platform
+      message:
+        uri: ${FIREBASE_MESSAGING_URI}
       config:
         path: ${FIREBASE_PATH}
 

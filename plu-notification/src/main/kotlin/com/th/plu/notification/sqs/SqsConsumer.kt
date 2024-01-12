@@ -1,7 +1,7 @@
 package com.th.plu.notification.sqs
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.th.plu.external.firebase.FirebaseCloudMessageService
+import com.th.plu.notification.firebase.FirebaseCloudMessageService
 import com.th.plu.external.sqs.dto.FirebaseMessageDto
 import com.th.plu.external.sqs.dto.MessageType
 import io.awspring.cloud.sqs.annotation.SqsListener
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service
 @Service
 class SqsConsumer(
     private val objectMapper: ObjectMapper,
-    private val firebaseCloudMessageService: FirebaseCloudMessageService
+    private val FirebaseCloudMessageService: FirebaseCloudMessageService
 ) {
-
-    private val SQS_CONSUME_LOG_MESSAE = "====> [SQS Queue Response]\n" + "info: %s\n" + "header: %s\n";
     private val log = LoggerFactory.getLogger(this.javaClass)
+    private val SQS_CONSUME_LOG_MESSAE = "====> [SQS Queue Response]\n" + "info: %s\n" + "header: %s\n";
+
     private val MESSAGE_TYPE_HEADER = "type"
 
     @SqsListener("pluNotification.fifo")
@@ -28,9 +28,8 @@ class SqsConsumer(
             when (messageType) {
                 MessageType.FIREBASE.name -> {
                     val firebaseMessageDto = objectMapper.readValue(info, FirebaseMessageDto::class.java)
-                    firebaseCloudMessageService.sendMessage(firebaseMessageDto)
+                    FirebaseCloudMessageService.sendMessageTo(firebaseMessageDto.fcmToken, firebaseMessageDto.title, firebaseMessageDto.body)
                 }
-
                 else ->
                     throw IllegalArgumentException("존재하지 않는 MessageType(${headers.get(MESSAGE_TYPE_HEADER)} 입니다.")
             }
