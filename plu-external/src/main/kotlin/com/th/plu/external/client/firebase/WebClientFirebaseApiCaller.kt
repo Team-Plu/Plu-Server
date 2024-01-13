@@ -28,15 +28,18 @@ class WebClientFirebaseApiCaller(private val webClient: WebClient) : FirebaseApi
             .body(BodyInserters.fromValue<String>(message))
             .retrieve()
             .onStatus(HttpStatusCode::is4xxClientError) {
-                log.error(it.logPrefix())
                 Mono.error(ValidationException())
             }
             .onStatus(HttpStatusCode::is5xxServerError) {
                 Mono.error(ValidationException())
             }
             .toBodilessEntity()
-            .subscribe()
-
-        log.info("전송완")
+            .subscribe {
+                if(it.statusCode.is2xxSuccessful) {
+                    log.info("====> [Firebase Messaging Success]\nStatus: ${it.statusCode}\nMessage: ${message}")
+                } else {
+                    log.error("====> [Firebase Messaging Fail]\nStatus: ${it.statusCode}\nMessage: ${message}")
+                }
+            }
     }
 }
