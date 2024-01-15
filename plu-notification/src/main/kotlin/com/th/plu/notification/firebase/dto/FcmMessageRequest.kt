@@ -2,7 +2,7 @@ package com.th.plu.notification.firebase.dto
 
 class FcmMessageRequest(val validateOnly: Boolean, val message: Message) {
 
-    class Message(val notification: Notification, val android: Android, val apns: Apns, val token: String)
+    class Message(val token: String, val notification: Notification, val android: Android, val apns: Apns)
     class Notification(val title: String, val body: String)
     class Data(val title: String, val body: String)
     class Android(val data: Data)
@@ -16,7 +16,7 @@ class FcmMessageRequest(val validateOnly: Boolean, val message: Message) {
             val notification = Notification(title, body)
             val android = Android(Data(title, body))
             val apns = Apns(Payload(Aps(Alert(title, body))))
-            val message = Message(notification, android, apns, fcmToken)
+            val message = Message(fcmToken, notification, android, apns)
 
             return FcmMessageRequest(false, message)
         }
