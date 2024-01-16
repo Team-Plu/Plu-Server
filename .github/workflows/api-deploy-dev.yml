@@ -6,8 +6,8 @@ on:
     branches: [ develop ]
     paths:
       - plu-api/**
-      - plu-core/**
       - plu-common/**
+      - plu-domain/**
       - plu-external/**
 
 env:
@@ -65,4 +65,4 @@ jobs:
           --application-name plu-application
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name API
-          --s3-location bucket=$AWS_S3_BUCKET_NAME,bundleType=zip,key=api-code-deploy.zip
+          --s3-location bucket=$AWS_S3_BUCKET,bundleType=zip,key=api-code-deploy.zip
