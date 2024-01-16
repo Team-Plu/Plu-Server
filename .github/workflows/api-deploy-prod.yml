@@ -1,9 +1,9 @@
-name: api-deploy-dev
+name: api-deploy-prod
 
-#develop merge 될 때 동작
+#main merge 될 때 동작
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
     paths:
       - plu-api/**
       - plu-common/**
