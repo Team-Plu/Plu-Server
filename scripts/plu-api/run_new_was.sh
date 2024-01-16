@@ -1,5 +1,6 @@
 NOW_TIME="$(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)"
 
+HOST_NAME=$(cat /etc/hostname)
 CURRENT_PORT=$(cat /etc/nginx/conf.d/service-url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
@@ -18,7 +19,12 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dserver.port=${TARGET_PORT} /home/ubuntu/application/*.jar
-echo "Now new WAS runs at ${TARGET_PORT}."
-
-exit 0
+if [ ${HOST_NAME} == "plu-prod-server" ]; then
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod /home/ubuntu/plu-api/*.jar
+  echo "Now new WAS runs at ${TARGET_PORT}."
+  exit 0
+else
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=dev /home/ubuntu/plu-api/*.jar
+  echo "Now new WAS runs at ${TARGET_PORT}."
+  exit 0
+fi

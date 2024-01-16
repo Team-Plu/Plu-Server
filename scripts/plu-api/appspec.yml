@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/application
+    destination: /home/ubuntu/plu-api
     overwrite: yes
 
 permissions:
