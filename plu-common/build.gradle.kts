@@ -12,6 +12,9 @@ tasks.bootJar {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+
+    // web
+    implementation("org.springframework.boot:spring-boot-starter-web")
 }
 repositories {
     mavenCentral()

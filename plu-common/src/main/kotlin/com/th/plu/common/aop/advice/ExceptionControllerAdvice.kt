@@ -1,4 +1,4 @@
-package com.th.plu.api.controller
+package com.th.plu.common.aop.advice
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.th.plu.common.dto.response.ApiResponse
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException
 import java.net.BindException
 
 @RestControllerAdvice
-class ExceptionController {
+class ExceptionControllerAdvice {
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     /**
@@ -37,15 +37,15 @@ class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(exception: MethodArgumentNotValidException): ApiResponse<Any> {
-        log.error(exception.message, exception)
-        return ApiResponse.error(ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION)
+        log.error(exception.message, exception);
+        return ApiResponse.error(ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
     fun handleBindException(exception: BindException): ApiResponse<Any> {
-        log.error(exception.message, exception)
-        return ApiResponse.error(ErrorCode.BIND_EXCEPTION)
+        log.error(exception.message, exception);
+        return ApiResponse.error(ErrorCode.BIND_EXCEPTION);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -57,8 +57,8 @@ class ExceptionController {
         ]
     )
     fun handleInvalidFormatException(exception: Exception): ApiResponse<Any> {
-        log.error(exception.message, exception)
-        return ApiResponse.error(ErrorCode.INVALID_FORMAT_EXCEPTION)
+        log.error(exception.message, exception);
+        return ApiResponse.error(ErrorCode.INVALID_FORMAT_EXCEPTION);
     }
 
     /**

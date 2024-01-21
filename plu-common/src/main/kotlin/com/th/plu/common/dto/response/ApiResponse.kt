@@ -1,4 +1,4 @@
-package com.th.plu.api.dto
+package com.th.plu.common.dto.response
 
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.code.SuccessCode
