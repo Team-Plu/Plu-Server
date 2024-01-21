@@ -1,6 +1,6 @@
 package com.th.plu.notification.firebase.dto
 
-class FcmMessageRequest(val validateOnly: Boolean, val message: Message) {
+data class FcmMessageRequest(val validateOnly: Boolean, val message: Message) {
 
     class Message(val token: String, val notification: Notification, val android: Android, val apns: Apns)
     class Notification(val title: String, val body: String)
