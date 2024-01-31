@@ -1,0 +1,68 @@
+name: api-deploy-dev
+
+#develop merge 될 때 동작
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - plu-api/**
+      - plu-common/**
+      - plu-domain/**
+      - plu-external/**
+
+env:
+  AWS_S3_BUCKET: plu-s3
+
+jobs:
+  build:
+    #실행 환경
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: create secret files
+        working-directory: plu-api/src/main/resources
+        run: |
+          touch application.yml
+          touch application-dev.yml
+          echo "${{ secrets.API_YML }}" > application.yml
+          echo "${{ secrets.API_DEV_YML }}" > application-dev.yml
+
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        shell: bash
+
+      # project build
+      - name: Build with Gradle
+        run: ./gradlew plu-api:bootJar -x test
+        shell: bash
+
+      - name: Make zip file
+        run: zip -r ./api-code-deploy.zip ./plu-api/build/libs/*.jar ./scripts/plu-api/* -j
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./code-deploy.zip s3://$AWS_S3_BUCKET/code-deploy.zip
+
+      - name: Code Deploy
+        run: aws deploy create-deployment
+          --application-name plu-application
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name API
+          --s3-location bucket=$AWS_S3_BUCKET,bundleType=zip,key=api-code-deploy.zip
