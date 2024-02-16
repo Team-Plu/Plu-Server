@@ -1,4 +1,4 @@
-package com.th.plu
+package com.th.plu.api
 
 import com.th.plu.common.PluCommonRoot
 import com.th.plu.domain.PluDomainRoot
