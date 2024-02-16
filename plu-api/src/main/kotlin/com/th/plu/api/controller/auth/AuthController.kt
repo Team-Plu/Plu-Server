@@ -1,5 +1,6 @@
 package com.th.plu.api.controller.auth
 
+import com.th.plu.api.controller.auth.dto.request.LoginRequestDto
 import com.th.plu.api.controller.auth.dto.request.SignupRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
 import com.th.plu.api.service.auth.AuthServiceProvider
@@ -23,11 +24,20 @@ class AuthController(
     private val tokenService: TokenService
 ) {
 
-    @Operation(summary = "카카오 소셜 회원가입")
+    @Operation(summary = "소셜 회원가입")
     @PostMapping("/v1/auth/signup")
     fun signup(@Valid @RequestBody request: SignupRequestDto): ApiResponse<TokenResponseDto> {
         val authService = authServiceProvider.getAuthService(request.socialType)
         val memberId = authService.signup(request)
+        val tokenInfo = tokenService.createTokenInfo(memberId)
+        return ApiResponse.success(tokenInfo)
+    }
+
+    @Operation(summary = "소셜 로그인")
+    @PostMapping("/v1/auth/login")
+    fun login(@Valid @RequestBody request: LoginRequestDto): ApiResponse<TokenResponseDto> {
+        val authService = authServiceProvider.getAuthService(request.socialType)
+        val memberId = authService.login(request)
         val tokenInfo = tokenService.createTokenInfo(memberId)
         return ApiResponse.success(tokenInfo)
     }

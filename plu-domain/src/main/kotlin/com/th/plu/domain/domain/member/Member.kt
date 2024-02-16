@@ -59,4 +59,8 @@ class Member(
     fun initOnboarding(onboarding: Onboarding) {
         this.onboarding = onboarding
     }
+
+    fun updateFcmToken(fcmToken: String) {
+        this.fcmToken = fcmToken
+    }
 }
