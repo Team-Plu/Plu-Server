@@ -48,5 +48,5 @@ spring:
       config:
         path: ${FIREBASE_PATH}
 
-#jwt:
-#  secret: secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey
+jwt:
+  secret: secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey

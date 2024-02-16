@@ -13,6 +13,10 @@ dependencies {
     // web
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    // validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 

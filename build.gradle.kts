@@ -41,7 +41,6 @@ subprojects {
 		implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 		// tools
-		implementation("org.springframework.boot:spring-boot-starter-validation")
 		compileOnly("org.projectlombok:lombok")
 		annotationProcessor("org.projectlombok:lombok")
 
@@ -55,6 +54,4 @@ subprojects {
 		useJUnitPlatform()
 	}
 }
-//
-//version = "0.0.1-SNAPSHOT"
 

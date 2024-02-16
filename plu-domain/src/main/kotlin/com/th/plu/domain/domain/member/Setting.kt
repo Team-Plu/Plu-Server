@@ -7,16 +7,22 @@ import jakarta.persistence.*
 @Entity
 class Setting(
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setting_id")
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column(name = "notification_status", nullable = false)
-    var notificationStatus: Boolean,
-
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "member_id", nullable = false)
-    var member: Member
+    var notificationStatus: Boolean
 
 ) : BaseEntity() {
+
+    companion object {
+        fun newInstance(): Setting {
+            return Setting(
+                id = null,
+                notificationStatus = false
+            )
+        }
+    }
 }

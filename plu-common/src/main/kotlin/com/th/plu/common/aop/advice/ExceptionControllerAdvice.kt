@@ -3,12 +3,11 @@ package com.th.plu.common.aop.advice
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.th.plu.common.dto.response.ApiResponse
 import com.th.plu.common.exception.code.ErrorCode
-import com.th.plu.common.exception.model.BadGatewayException
-import com.th.plu.common.exception.model.NotFoundException
-import com.th.plu.common.exception.model.ValidationException
+import com.th.plu.common.exception.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.validation.BindException
 import org.springframework.web.HttpMediaTypeException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.resource.NoResourceFoundException
-import java.net.BindException
 
 @RestControllerAdvice
 class ExceptionControllerAdvice {
@@ -38,14 +36,20 @@ class ExceptionControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(exception: MethodArgumentNotValidException): ApiResponse<Any> {
         log.error(exception.message, exception);
-        return ApiResponse.error(ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION);
+        return ApiResponse.error(
+            ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION,
+            exception.bindingResult.fieldError?.defaultMessage.toString()
+        )
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
     fun handleBindException(exception: BindException): ApiResponse<Any> {
         log.error(exception.message, exception);
-        return ApiResponse.error(ErrorCode.BIND_EXCEPTION);
+        return ApiResponse.error(
+            ErrorCode.BIND_EXCEPTION,
+            exception.bindingResult.fieldError?.defaultMessage.toString()
+        )
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -59,6 +63,26 @@ class ExceptionControllerAdvice {
     fun handleInvalidFormatException(exception: Exception): ApiResponse<Any> {
         log.error(exception.message, exception);
         return ApiResponse.error(ErrorCode.INVALID_FORMAT_EXCEPTION);
+    }
+
+    /**
+     * 401 Unauthorized
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException::class)
+    fun handleUnauthorizedException(exception: UnauthorizedException): ApiResponse<Any> {
+        log.error(exception.message, exception)
+        return ApiResponse.error(exception.errorCode)
+    }
+
+    /**
+     * 403 Forbidden
+     */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException::class)
+    fun handleForbiddenException(exception: ForbiddenException): ApiResponse<Any> {
+        log.error(exception.message, exception)
+        return ApiResponse.error(exception.errorCode)
     }
 
     /**
@@ -89,6 +113,16 @@ class ExceptionControllerAdvice {
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
     fun handleHttpRequestMethodNotSupportedException(exception: HttpRequestMethodNotSupportedException): ApiResponse<Any> {
         return ApiResponse.error(ErrorCode.METHOD_NOT_ALLOWED_EXCEPTION)
+    }
+
+    /**
+     * 409 Conflict
+     */
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ConflictException::class)
+    fun handleConflictException(exception: ConflictException): ApiResponse<Any> {
+        log.error(exception.message, exception)
+        return ApiResponse.error(exception.errorCode)
     }
 
     /**

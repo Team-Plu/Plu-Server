@@ -19,8 +19,8 @@ class MemberRepositoryImpl(private val queryFactory: JPAQueryFactory) : MemberRe
         return queryFactory
             .selectFrom(member)
             .where(
-                member.socialInfo.socialId.eq(socialId),
-                member.socialInfo.socialType.eq(socialType)
+                member.socialId.eq(socialId),
+                member.socialType.eq(socialType)
             ).fetchOne()
     }
 
@@ -28,8 +28,8 @@ class MemberRepositoryImpl(private val queryFactory: JPAQueryFactory) : MemberRe
         return queryFactory
             .selectFrom(member)
             .where(
-                member.socialInfo.socialId.eq(socialId),
-                member.socialInfo.socialType.eq(socialType)
+                member.socialId.eq(socialId),
+                member.socialType.eq(socialType)
             ).fetchOne() != null
     }
 }
