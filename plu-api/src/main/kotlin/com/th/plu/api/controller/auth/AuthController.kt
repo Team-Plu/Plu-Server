@@ -1,12 +1,14 @@
 package com.th.plu.api.controller.auth
 
+import com.th.plu.api.config.interceptor.Auth
+import com.th.plu.api.config.resolver.MemberId
 import com.th.plu.api.controller.auth.dto.request.LoginRequestDto
 import com.th.plu.api.controller.auth.dto.request.SignupRequestDto
 import com.th.plu.api.controller.auth.dto.request.TokenRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
 import com.th.plu.api.service.auth.AuthServiceProvider
+import com.th.plu.api.service.auth.CommonAuthService
 import com.th.plu.api.service.auth.TokenService
-import com.th.plu.api.service.member.MemberService
 import com.th.plu.common.dto.response.ApiResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -21,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class AuthController(
     private val authServiceProvider: AuthServiceProvider,
-    private val memberService: MemberService,
-    private val tokenService: TokenService
+    private val tokenService: TokenService,
+    private val commonAuthService: CommonAuthService
 ) {
 
     @Operation(summary = "소셜 회원가입")
@@ -47,5 +49,13 @@ class AuthController(
     @PostMapping("/v1/auth/refresh")
     fun reissue(@Valid @RequestBody request: TokenRequestDto): ApiResponse<TokenResponseDto> {
         return ApiResponse.success(tokenService.reissueToken(request))
+    }
+
+    @Operation(summary = "로그아웃")
+    @PostMapping("/v1/auth/logout")
+    @Auth
+    fun logout(@MemberId memberId: Long): ApiResponse<Any> {
+        commonAuthService.logout(memberId)
+        return ApiResponse.success()
     }
 }
