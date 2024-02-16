@@ -27,6 +27,10 @@ class TokenService(
     @Transactional
     fun reissueToken(request: TokenRequestDto): TokenResponseDto {
         val memberId = jwtUtils.getMemberIdFromJwt(request.accessToken)
+            ?: throw UnauthorizedException(
+                ErrorCode.UNAUTHORIZED_EXCEPTION,
+                "주어진 액세스 토큰 ${request.accessToken} 으로 유저 정보를 찾을 수 없습니다."
+            )
         val member = MemberServiceUtils.findMemberById(memberRepository, memberId)
         if (!jwtUtils.validateToken(request.refreshToken)) {
             member.resetFcmToken()
