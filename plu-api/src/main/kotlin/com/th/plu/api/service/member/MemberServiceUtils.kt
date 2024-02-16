@@ -19,6 +19,14 @@ class MemberServiceUtils {
             }
         }
 
+        fun findMemberById(
+            memberRepository: MemberRepository,
+            id: Long
+        ): Member {
+            return memberRepository.findMemberById(id)
+                ?: throw NotFoundException(ErrorCode.NOT_FOUND_MEMBER_EXCEPTION, "존재하지 않는 유저 $id 입니다")
+        }
+
         fun findMemberBySocialIdAndSocialType(
             memberRepository: MemberRepository,
             socialId: String,

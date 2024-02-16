@@ -92,7 +92,8 @@ class JwtUtils(
     }
 
     fun getMemberIdFromJwt(accessToken: String): Long {
-        return parseClaims(accessToken).get(JwtKey.MEMBER_ID, Long::class.java)
+        val memberId = parseClaims(accessToken)[JwtKey.MEMBER_ID] as Int
+        return memberId.toLong()
     }
 
     private fun parseClaims(accessToken: String): Claims {

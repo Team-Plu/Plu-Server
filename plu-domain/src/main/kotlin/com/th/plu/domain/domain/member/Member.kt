@@ -24,8 +24,8 @@ class Member(
     @Enumerated(EnumType.STRING)
     var role: MemberRole,
 
-    @Column(name = "fcm_token", nullable = false, length = 300)
-    var fcmToken: String,
+    @Column(name = "fcm_token", nullable = true, length = 300)
+    var fcmToken: String?,
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
     @JoinColumn(name = "setting_id", nullable = false)
@@ -62,5 +62,9 @@ class Member(
 
     fun updateFcmToken(fcmToken: String) {
         this.fcmToken = fcmToken
+    }
+
+    fun resetFcmToken() {
+        this.fcmToken = null
     }
 }

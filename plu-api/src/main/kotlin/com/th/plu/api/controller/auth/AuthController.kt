@@ -2,6 +2,7 @@ package com.th.plu.api.controller.auth
 
 import com.th.plu.api.controller.auth.dto.request.LoginRequestDto
 import com.th.plu.api.controller.auth.dto.request.SignupRequestDto
+import com.th.plu.api.controller.auth.dto.request.TokenRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
 import com.th.plu.api.service.auth.AuthServiceProvider
 import com.th.plu.api.service.auth.TokenService
@@ -40,5 +41,11 @@ class AuthController(
         val memberId = authService.login(request)
         val tokenInfo = tokenService.createTokenInfo(memberId)
         return ApiResponse.success(tokenInfo)
+    }
+
+    @Operation(summary = "토큰 갱신")
+    @PostMapping("/v1/auth/refresh")
+    fun reissue(@Valid @RequestBody request: TokenRequestDto): ApiResponse<TokenResponseDto> {
+        return ApiResponse.success(tokenService.reissueToken(request))
     }
 }
