@@ -19,19 +19,19 @@ class SwaggerConfig {
     @Bean
     fun openAPI(): OpenAPI {
         val info = Info()
-                .title(TITLE)
-                .description(DESCRIPTION)
-                .version(VERSION)
+            .title(TITLE)
+            .description(DESCRIPTION)
+            .version(VERSION)
 
         val securityScheme = SecurityScheme()
-                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
-                .`in`(SecurityScheme.In.HEADER).name("Authorization")
+            .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+            .`in`(SecurityScheme.In.HEADER).name("Authorization")
         val securityRequirement = SecurityRequirement().addList("Bearer Token")
 
         return OpenAPI()
-                .components(Components().addSecuritySchemes("Bearer Token", securityScheme))
-                .security(listOf(securityRequirement))
-                .info(info)
+            .components(Components().addSecuritySchemes("Bearer Token", securityScheme))
+            .security(listOf(securityRequirement))
+            .info(info)
     }
 
 }
