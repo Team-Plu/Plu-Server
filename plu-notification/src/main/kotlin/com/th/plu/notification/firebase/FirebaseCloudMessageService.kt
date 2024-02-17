@@ -25,9 +25,11 @@ class FirebaseCloudMessageService(
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val LOG_PREFIX = "====> [Firebase Cloud Message]"
 
-    fun sendMessageTo(fcmToken: String, title: String, body: String) {
-        val message = makeMessage(fcmToken, title, body)
-        firebaseApiCaller.requestFcmMessaging(getAccessToken(), message)
+    fun sendMessageTo(fcmToken: String?, title: String, body: String) {
+        if (fcmToken != null) {
+            val message = makeMessage(fcmToken, title, body)
+            firebaseApiCaller.requestFcmMessaging(getAccessToken(), message)
+        }
     }
 
     fun makeMessage(fcmToken: String, title: String, body: String): String {
@@ -45,7 +47,10 @@ class FirebaseCloudMessageService(
             return googleCredentials.accessToken.tokenValue
         } catch (exception: Exception) {
             log.error(exception.message, exception)
-            throw BadGatewayException(ErrorCode.BAD_GATEWAY_EXCEPTION, "${LOG_PREFIX} FCM Access Token 발급 과정에서 에러가 발생하였습니다.")
+            throw BadGatewayException(
+                ErrorCode.BAD_GATEWAY_EXCEPTION,
+                "${LOG_PREFIX} FCM Access Token 발급 과정에서 에러가 발생하였습니다."
+            )
         }
     }
 }

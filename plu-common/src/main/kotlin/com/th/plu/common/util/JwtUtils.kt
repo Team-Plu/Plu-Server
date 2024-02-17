@@ -16,13 +16,12 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Component
-class JwtUtils(
-    private val redisTemplate: RedisTemplate<String, Any>
-) {
+class JwtUtils {
 
     @Value("\${jwt.secret}")
     private var jwtSecret: String? = null
 
+    private var redisTemplate: RedisTemplate<String, Any>? = null
     private var secretKey: Key? = null
     private val log = LoggerFactory.getLogger(this.javaClass)
 
@@ -37,6 +36,7 @@ class JwtUtils(
 
     @PostConstruct
     fun init() {
+        this.redisTemplate = RedisTemplate()
         val keyBytes: ByteArray = Decoders.BASE64.decode(jwtSecret)
         this.secretKey = Keys.hmacShaKeyFor(keyBytes)
     }
@@ -59,14 +59,14 @@ class JwtUtils(
             .signWith(secretKey, SignatureAlgorithm.HS512)
             .compact()
 
-        redisTemplate.opsForValue()
-            .set(RedisKey.REFRESH_TOKEN + memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME, TimeUnit.MILLISECONDS)
+        redisTemplate?.opsForValue()
+            ?.set(RedisKey.REFRESH_TOKEN + memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME, TimeUnit.MILLISECONDS)
 
         return listOf(accessToken, refreshToken)
     }
 
     fun expireRefreshToken(memberId: Long) {
-        redisTemplate.opsForValue().set(RedisKey.REFRESH_TOKEN + memberId, "", EXPIRED_TIME, TimeUnit.MILLISECONDS)
+        redisTemplate?.opsForValue()?.set(RedisKey.REFRESH_TOKEN + memberId, "", EXPIRED_TIME, TimeUnit.MILLISECONDS)
     }
 
     fun validateToken(token: String?): Boolean {
