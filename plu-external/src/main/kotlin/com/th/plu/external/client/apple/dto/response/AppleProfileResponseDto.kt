@@ -1,10 +1,8 @@
 package com.th.plu.external.client.apple.dto.response
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.BadGatewayException
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class AppleProfileResponseDto(
     val keys: List<Key>
 ) {
