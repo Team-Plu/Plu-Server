@@ -1,5 +1,6 @@
-package com.th.plu.common.util
+package com.th.plu.api.service.auth.jwt
 
+import com.th.plu.api.service.redis.RedisHandler
 import com.th.plu.common.constant.JwtKey
 import com.th.plu.common.constant.RedisKey
 import io.jsonwebtoken.*
@@ -9,26 +10,22 @@ import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 @Component
-class JwtUtils {
-
+class JwtHandler(
+    private val redisHandler: RedisHandler,
+) {
     @Value("\${jwt.secret}")
     private var jwtSecret: String? = null
-
-    private var redisTemplate: RedisTemplate<String, Any>? = null
     private var secretKey: Key? = null
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
-//        private const val ACCESS_TOKEN_EXPIRE_TIME = 10 * 60 * 1000L // 10분
-//        private const val REFRESH_TOKEN_EXPIRE_TIME = 6 * 30 * 24 * 60 * 60 * 1000L // 180일
-
+        // private const val ACCESS_TOKEN_EXPIRE_TIME = 10 * 60 * 1000L // 10분
+        // private const val REFRESH_TOKEN_EXPIRE_TIME = 6 * 30 * 24 * 60 * 60 * 1000L // 180일
         private const val ACCESS_TOKEN_EXPIRE_TIME = 365 * 24 * 60 * 60 * 1000L;   // 1년
         private const val REFRESH_TOKEN_EXPIRE_TIME = 365 * 24 * 60 * 60 * 1000L;    // 1년
         private const val EXPIRED_TIME = 1L
@@ -36,7 +33,6 @@ class JwtUtils {
 
     @PostConstruct
     fun init() {
-        this.redisTemplate = RedisTemplate()
         val keyBytes: ByteArray = Decoders.BASE64.decode(jwtSecret)
         this.secretKey = Keys.hmacShaKeyFor(keyBytes)
     }
@@ -59,14 +55,13 @@ class JwtUtils {
             .signWith(secretKey, SignatureAlgorithm.HS512)
             .compact()
 
-        redisTemplate?.opsForValue()
-            ?.set(RedisKey.REFRESH_TOKEN + memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME, TimeUnit.MILLISECONDS)
+        redisHandler.set(RedisKey.REFRESH_TOKEN + memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
 
         return listOf(accessToken, refreshToken)
     }
 
     fun expireRefreshToken(memberId: Long) {
-        redisTemplate?.opsForValue()?.set(RedisKey.REFRESH_TOKEN + memberId, "", EXPIRED_TIME, TimeUnit.MILLISECONDS)
+        redisHandler.delete(RedisKey.REFRESH_TOKEN + memberId)
     }
 
     fun validateToken(token: String?): Boolean {
