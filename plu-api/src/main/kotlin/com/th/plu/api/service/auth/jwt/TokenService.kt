@@ -17,7 +17,6 @@ class TokenService(
     private val memberRepository: MemberRepository,
     private val redisHandler: RedisHandler
 ) {
-    @Transactional
     fun createTokenInfo(memberId: Long): TokenResponseDto {
         val tokens = jwtHandler.createTokenInfo(memberId)
         return tokens.toResponseDto()
@@ -26,10 +25,6 @@ class TokenService(
     @Transactional
     fun reissueToken(request: TokenRequestDto): TokenResponseDto {
         val memberId = jwtHandler.getMemberIdFromJwt(request.accessToken)
-            ?: throw UnauthorizedException(
-                ErrorCode.UNAUTHORIZED_EXCEPTION,
-                "주어진 액세스 토큰 ${request.accessToken} 으로 유저 정보를 찾을 수 없습니다."
-            )
         val member = MemberServiceUtils.findMemberById(memberRepository, memberId)
         if (!jwtHandler.validateToken(request.refreshToken)) {
             member.resetFcmToken()

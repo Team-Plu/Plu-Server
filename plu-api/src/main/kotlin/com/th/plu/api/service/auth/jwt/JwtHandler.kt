@@ -3,6 +3,8 @@ package com.th.plu.api.service.auth.jwt
 import com.th.plu.api.service.redis.RedisHandler
 import com.th.plu.common.constant.JwtKey
 import com.th.plu.common.constant.RedisKey
+import com.th.plu.common.exception.code.ErrorCode
+import com.th.plu.common.exception.model.UnauthorizedException
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.io.DecodingException
@@ -86,9 +88,12 @@ class JwtHandler(
         return false
     }
 
-    fun getMemberIdFromJwt(accessToken: String): Long? {
+    fun getMemberIdFromJwt(accessToken: String): Long {
         val memberId = parseClaims(accessToken)[JwtKey.MEMBER_ID] as Int?
-        return memberId?.toLong()
+        return memberId?.toLong() ?: throw UnauthorizedException(
+            ErrorCode.UNAUTHORIZED_EXCEPTION,
+            "주어진 액세스 토큰 $accessToken 으로 유저 정보를 찾을 수 없습니다."
+        )
     }
 
     private fun parseClaims(accessToken: String): Claims {

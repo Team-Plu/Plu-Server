@@ -15,10 +15,7 @@ class LoginCheckHandler(
         if (!bearerToken.isNullOrBlank() && bearerToken.startsWith("Bearer ")) {
             val accessToken = bearerToken.substring("Bearer ".length)
             if (jwtHandler.validateToken(accessToken)) {
-                val memberId = jwtHandler.getMemberIdFromJwt(accessToken)
-                if (memberId != null) {
-                    return memberId
-                }
+                return jwtHandler.getMemberIdFromJwt(accessToken)
             }
         }
         throw UnauthorizedException(ErrorCode.UNAUTHORIZED_EXCEPTION, "잘못된 JWT $bearerToken 입니다.")
