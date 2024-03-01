@@ -37,7 +37,7 @@ class JwtHandler(
         this.secretKey = Keys.hmacShaKeyFor(keyBytes)
     }
 
-    fun createTokenInfo(memberId: Long): List<String> {
+    fun createTokenInfo(memberId: Long): TokenDto {
         val now = Date().time
         val accessTokenExpiresIn = Date(now + ACCESS_TOKEN_EXPIRE_TIME)
         val refreshTokenExpiresIn = Date(now + REFRESH_TOKEN_EXPIRE_TIME)
@@ -57,7 +57,7 @@ class JwtHandler(
 
         redisHandler.set(RedisKey.REFRESH_TOKEN + memberId, refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
 
-        return listOf(accessToken, refreshToken)
+        return TokenDto(accessToken, refreshToken)
     }
 
     fun expireRefreshToken(memberId: Long) {

@@ -19,8 +19,8 @@ class TokenService(
 ) {
     @Transactional
     fun createTokenInfo(memberId: Long): TokenResponseDto {
-        val tokens: List<String> = jwtHandler.createTokenInfo(memberId)
-        return TokenResponseDto(accessToken = tokens[0], refreshToken = tokens[1])
+        val tokens = jwtHandler.createTokenInfo(memberId)
+        return tokens.toResponseDto()
     }
 
     @Transactional
@@ -55,6 +55,6 @@ class TokenService(
             )
         }
         val newTokens = jwtHandler.createTokenInfo(memberId)
-        return TokenResponseDto(accessToken = newTokens[0], refreshToken = newTokens[1])
+        return newTokens.toResponseDto()
     }
 }
