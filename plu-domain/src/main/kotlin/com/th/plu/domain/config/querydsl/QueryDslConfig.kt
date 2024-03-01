@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class QueryDslConfig {
-
+class QueryDslConfig(
     @PersistenceContext
-    private lateinit var entityManager: EntityManager
-
+    private val entityManager: EntityManager
+) {
     @Bean
     fun queryFactory(): JPAQueryFactory {
         return JPAQueryFactory(entityManager)
