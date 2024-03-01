@@ -7,12 +7,27 @@ import jakarta.persistence.*
 @Entity
 class Onboarding(
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "onboarding_id")
-    val id: Long? = null,
+    var id: Long? = null,
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
     @JoinColumn(name = "member_id", nullable = false)
     var member: Member,
+
+    @Column(name = "nickname", nullable = false, length = 30)
+    var nickname: String,
 ) : BaseEntity() {
+
+    companion object {
+
+        fun newInstance(member: Member, nickname: String): Onboarding {
+            return Onboarding(
+                id = null,
+                member = member,
+                nickname = nickname
+            )
+        }
+    }
 }

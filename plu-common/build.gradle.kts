@@ -2,11 +2,11 @@ plugins {
     kotlin("jvm")
 }
 tasks.jar {
-	enabled = true
+    enabled = true
 }
 
 tasks.bootJar {
-	enabled = false
+    enabled = false
 }
 
 

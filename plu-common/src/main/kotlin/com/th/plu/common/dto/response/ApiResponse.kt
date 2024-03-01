@@ -17,5 +17,9 @@ data class ApiResponse<T>(val code: String, val message: String, var data: T?) {
         fun error(errorCode: ErrorCode): ApiResponse<Any> {
             return ApiResponse(errorCode.code, errorCode.message, null)
         }
+
+        fun error(errorCode: ErrorCode, message: String): ApiResponse<Any> {
+            return ApiResponse(errorCode.code, message, null)
+        }
     }
 }

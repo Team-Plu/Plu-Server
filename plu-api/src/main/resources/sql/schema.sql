@@ -12,6 +12,7 @@ CREATE TABLE `members`
     `social_type` varchar(30)  NOT NULL,
     `member_role` varchar(30)  NOT NULL,
     `fcm_token`   varchar(300) NULL,
+    `setting_id`  bigint       NOT NULL,
     `created_at`  datetime     NOT NULL,
     `modified_at` datetime     NOT NULL
 );
@@ -19,7 +20,6 @@ CREATE TABLE `members`
 CREATE TABLE `settings`
 (
     `setting_id`          bigint auto_increment primary key,
-    `member_id`           bigint   NOT NULL,
     `notification_status` boolean  NOT NULL,
     `created_at`          datetime NOT NULL,
     `modified_at`         datetime NOT NULL
