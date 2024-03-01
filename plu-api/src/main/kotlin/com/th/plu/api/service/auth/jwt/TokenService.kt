@@ -1,14 +1,13 @@
-package com.th.plu.api.service.auth
+package com.th.plu.api.service.auth.jwt
 
 import com.th.plu.api.controller.auth.dto.request.TokenRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
-import com.th.plu.api.service.auth.jwt.JwtHandler
 import com.th.plu.api.service.member.MemberServiceUtils
+import com.th.plu.api.service.redis.RedisHandler
 import com.th.plu.common.constant.RedisKey
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.UnauthorizedException
 import com.th.plu.domain.domain.member.repository.MemberRepository
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class TokenService(
     private val jwtHandler: JwtHandler,
     private val memberRepository: MemberRepository,
-    private val redisTemplate: RedisTemplate<String, Any>
+    private val redisHandler: RedisHandler
 ) {
     @Transactional
     fun createTokenInfo(memberId: Long): TokenResponseDto {
@@ -39,7 +38,7 @@ class TokenService(
                 "주어진 리프레시 토큰 ${request.refreshToken} 이 유효하지 않습니다."
             )
         }
-        val refreshToken = redisTemplate.opsForValue().get(RedisKey.REFRESH_TOKEN + memberId) as String?
+        val refreshToken = redisHandler.get(RedisKey.REFRESH_TOKEN + memberId)
         if (refreshToken == null) {
             member.resetFcmToken()
             throw UnauthorizedException(

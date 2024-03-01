@@ -8,7 +8,7 @@ import com.th.plu.api.controller.auth.dto.request.TokenRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
 import com.th.plu.api.service.auth.AuthServiceProvider
 import com.th.plu.api.service.auth.CommonAuthService
-import com.th.plu.api.service.auth.TokenService
+import com.th.plu.api.service.auth.jwt.TokenService
 import com.th.plu.common.dto.response.ApiResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
