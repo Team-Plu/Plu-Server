@@ -1,9 +1,8 @@
 package com.th.plu.external.client.firebase
 
+import com.th.plu.common.Slf4JKotlinLogging.log
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.BadGatewayException
-import com.th.plu.common.exception.model.ValidationException
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.MediaType
@@ -19,7 +18,6 @@ class WebClientFirebaseApiCaller(private val webClient: WebClient) : FirebaseApi
     @Value("\${spring.cloud.firebase.message.uri}")
     private var messageApiUri: String? = null
 
-    private val log = LoggerFactory.getLogger(this.javaClass)
     private val LOG_PREFIX = "====> [Firebase Messaging]"
 
 
@@ -33,19 +31,25 @@ class WebClientFirebaseApiCaller(private val webClient: WebClient) : FirebaseApi
             .body(BodyInserters.fromValue<String>(message))
             .retrieve()
             .onStatus(HttpStatusCode::is4xxClientError) {
-                Mono.error(BadGatewayException(ErrorCode.BAD_GATEWAY_EXCEPTION,
-                    createFirebaseFailMessage(it, message)
-                ))
+                Mono.error(
+                    BadGatewayException(
+                        ErrorCode.BAD_GATEWAY_EXCEPTION,
+                        createFirebaseFailMessage(it, message)
+                    )
+                )
             }
             .onStatus(HttpStatusCode::is5xxServerError) {
-                Mono.error(BadGatewayException(ErrorCode.BAD_GATEWAY_EXCEPTION,
-                    createFirebaseFailMessage(it, message)
-                ))
+                Mono.error(
+                    BadGatewayException(
+                        ErrorCode.BAD_GATEWAY_EXCEPTION,
+                        createFirebaseFailMessage(it, message)
+                    )
+                )
             }
             .toBodilessEntity()
             .subscribe {
                 if (it.statusCode.is2xxSuccessful) {
-                    log.info("${LOG_PREFIX}\nStatus: ${it.statusCode}\nMessage: ${message}")
+                    log.info { "${LOG_PREFIX}\nStatus: ${it.statusCode}\nMessage: ${message}" }
                 } else {
                     throw BadGatewayException(
                         ErrorCode.BAD_GATEWAY_EXCEPTION,

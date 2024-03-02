@@ -1,10 +1,10 @@
 package com.th.plu.common.aop.advice
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
+import com.th.plu.common.Slf4JKotlinLogging.log
 import com.th.plu.common.dto.response.ApiResponse
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.*
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
@@ -20,22 +20,20 @@ import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
 class ExceptionControllerAdvice {
-    private val log = LoggerFactory.getLogger(this.javaClass)
-
     /**
      * 400 Bad Request
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException::class)
     fun handleValidationException(exception: ValidationException): ApiResponse<Any> {
-        log.error(exception.message)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(exception: MethodArgumentNotValidException): ApiResponse<Any> {
-        log.error(exception.message, exception);
+        log.error(exception) { exception.message }
         return ApiResponse.error(
             ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION,
             exception.bindingResult.fieldError?.defaultMessage.toString()
@@ -45,7 +43,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
     fun handleBindException(exception: BindException): ApiResponse<Any> {
-        log.error(exception.message, exception);
+        log.error(exception) { exception.message }
         return ApiResponse.error(
             ErrorCode.BIND_EXCEPTION,
             exception.bindingResult.fieldError?.defaultMessage.toString()
@@ -61,7 +59,7 @@ class ExceptionControllerAdvice {
         ]
     )
     fun handleInvalidFormatException(exception: Exception): ApiResponse<Any> {
-        log.error(exception.message, exception);
+        log.error(exception) { exception.message }
         return ApiResponse.error(ErrorCode.INVALID_FORMAT_EXCEPTION);
     }
 
@@ -71,7 +69,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException::class)
     fun handleUnauthorizedException(exception: UnauthorizedException): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 
@@ -81,7 +79,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(ForbiddenException::class)
     fun handleForbiddenException(exception: ForbiddenException): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 
@@ -91,7 +89,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(exception: NotFoundException): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 
@@ -102,7 +100,7 @@ class ExceptionControllerAdvice {
             NoResourceFoundException::class]
     )
     fun handleNotFoundEndpointException(exception: Exception): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(ErrorCode.NOT_FOUND_ENDPOINT_EXCEPTION)
     }
 
@@ -121,7 +119,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ConflictException::class)
     fun handleConflictException(exception: ConflictException): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 
@@ -140,7 +138,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception::class)
     fun handleInternalServerException(exception: Exception): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(ErrorCode.INTERNAL_SERVER_EXCEPTION)
     }
 
@@ -150,7 +148,7 @@ class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     @ExceptionHandler(BadGatewayException::class)
     fun handleBadGatewayException(exception: BadGatewayException): ApiResponse<Any> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ApiResponse.error(exception.errorCode)
     }
 }
