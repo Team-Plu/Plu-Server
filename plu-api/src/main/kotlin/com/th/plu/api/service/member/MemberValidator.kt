@@ -15,4 +15,10 @@ class MemberValidator(
             throw ConflictException(ErrorCode.CONFLICT_MEMBER_EXCEPTION, "이미 존재하는 유저 $socialId - $socialType 입니다")
         }
     }
+
+    fun validateDuplicatedNickname(nickname: String) {
+        if (memberRepository.existsByNickname(nickname)) {
+            throw ConflictException(ErrorCode.CONFLICT_NICKNAME_EXCEPTION, "이미 사용 중인 닉네임입니다.")
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.th.plu.api.service.member
 
 import com.th.plu.api.controller.member.dto.request.CreateUserRequestDto
+import com.th.plu.common.exception.model.NotFoundException
 import com.th.plu.domain.domain.member.Member
 import com.th.plu.domain.domain.member.Onboarding
 import com.th.plu.domain.domain.member.Setting
@@ -21,7 +22,8 @@ class MemberService(
     @Transactional
     fun registerUser(request: CreateUserRequestDto): Long {
         memberValidator.validateNotExistsMember(request.socialId, request.socialType)
-        // TODO: 닉네임 중복 체크 추가해야합니다.
+        memberValidator.validateDuplicatedNickname(request.nickname)
+
         val member = memberRepository.save(
             Member.newInstance(
                 socialId = request.socialId,
@@ -38,6 +40,10 @@ class MemberService(
         )
         member.initOnboarding(onboarding)
         return member.id!!
+    }
+
+    fun isNicknameAvailable(nickname: String): Boolean {
+        return !memberRepository.existsByNickname(nickname)
     }
 
 }

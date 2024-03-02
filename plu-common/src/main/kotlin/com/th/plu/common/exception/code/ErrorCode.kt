@@ -31,6 +31,7 @@ enum class ErrorCode(val code: String, val message: String) {
     CONFLICT_EXCEPTION("C001", "이미 존재합니다."),
     CONFLICT_MEMBER_EXCEPTION("C002", "이미 해당 계정으로 회원가입하셨습니다.\n로그인 해주세요."),
     CONFLICT_BOOKMARK_EXCEPTION("C003", "요청과 동일한 북마크 상태 입니다."),
+    CONFLICT_NICKNAME_EXCEPTION("C004","이미 사용 중인 닉네임 입니다."),
 
     // Internal Server Exception
     INTERNAL_SERVER_EXCEPTION("I001", "서버 내부에서 에러가 발생하였습니다."),
