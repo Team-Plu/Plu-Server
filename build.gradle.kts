@@ -49,6 +49,7 @@ subprojects {
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
+		runtimeOnly("com.h2database:h2")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 	}
 
