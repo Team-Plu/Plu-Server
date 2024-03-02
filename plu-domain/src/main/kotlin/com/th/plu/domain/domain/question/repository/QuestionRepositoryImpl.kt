@@ -11,7 +11,7 @@ class QuestionRepositoryImpl(private val queryFactory: JPAQueryFactory) : Questi
     override fun findQuestionById(id: Long): Question? {
         return queryFactory
             .selectFrom(question)
-            .where(question.id.eq(id))
+            .where(question._id.eq(id))
             .fetchOne()
     }
 }
