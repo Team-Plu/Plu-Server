@@ -9,22 +9,22 @@ if [ ${CURRENT_PORT} -eq 8081 ]; then
 elif [ ${CURRENT_PORT} -eq 8082 ]; then
   TARGET_PORT=8081
 else
-  echo "[$NOW_TIME] No WAS is connected to nginx"
+  echo "[$NOW_TIME] No WAS is connected to nginx" >> /home/ubuntu/plu-api/deploy.log
 fi
 
 TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
 
 if [ ! -z ${TARGET_PID} ]; then
-  echo "Kill WAS running at ${TARGET_PORT}."
+  echo "Kill WAS running at ${TARGET_PORT}." >> /home/ubuntu/plu-api/deploy.log
   sudo kill ${TARGET_PID}
 fi
 
 if [ ${HOST_NAME} == "plu-prod-server" ]; then
-  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod /home/ubuntu/plu-api/*.jar
-  echo "Now new WAS runs at ${TARGET_PORT}."
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod /home/ubuntu/plu-api/*.jar >> /home/ubuntu/plu-api/deploy.log 2>/home/ubuntu/plu-api/deploy_err.log &
+  echo "Now new WAS runs at ${TARGET_PORT}." >> /home/ubuntu/plu-api/deploy.log
   exit 0
 else
-  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=dev /home/ubuntu/plu-api/*.jar
-  echo "Now new WAS runs at ${TARGET_PORT}."
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=dev /home/ubuntu/plu-api/*.jar >> /home/ubuntu/plu-api/deploy.log 2>/home/ubuntu/plu-api/deploy_err.log &
+  echo "Now new WAS runs at ${TARGET_PORT}." >> /home/ubuntu/plu-api/deploy.log
   exit 0
 fi

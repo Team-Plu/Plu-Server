@@ -7,6 +7,7 @@ on:
   push:
     branches: [ develop ]
     paths:
+      - .github/workflows/**
       - plu-notification/**
       - plu-common/**
       - plu-domain/**
@@ -64,16 +65,16 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_S3_ACCESS_KEY_DEV }}
-          aws-secret-access-key: ${{ secrets.AWS_S3_SECRET_KEY_DEV }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
+          aws-region: ap-northeast-2
 
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./notification-code-deploy.zip s3://$AWS_S3_BUCKET/notification-code-deploy.zip
 
       - name: Code Deploy
         run: aws deploy create-deployment
-          --application-name plu-codedeploy
+          --application-name plu-application
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name NOTIFICATION
-          --s3-location bucket=$AWS_S3_BUCKET_NAME,bundleType=zip,key=notification-code-deploy.zip
+          --s3-location bucket=$AWS_S3_BUCKET,bundleType=zip,key=notification-code-deploy.zip

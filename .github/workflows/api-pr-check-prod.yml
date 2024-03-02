@@ -7,6 +7,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
+      - .github/workflows/**
       - plu-api/**
       - plu-common/**
       - plu-domain/**

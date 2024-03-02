@@ -5,6 +5,7 @@ on:
   pull_request:
     branches: [ develop ]
     paths:
+      - .github/workflows/**
       - plu-notification/**
       - plu-common/**
       - plu-domain/**
