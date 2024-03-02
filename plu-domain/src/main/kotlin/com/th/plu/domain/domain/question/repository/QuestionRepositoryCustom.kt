@@ -11,4 +11,6 @@ interface QuestionRepositoryCustom {
     fun findByExposedAtOrNull(exposedAt: LocalDateTime): Question?
 
     fun findAllByExposedMonthIn(memberId: Long, yearMonth: YearMonth): List<Question>
+
+    fun findAllExposedAtIAnsweredMonth(memberId: Long): List<LocalDateTime>
 }

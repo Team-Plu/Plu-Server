@@ -24,7 +24,7 @@ class QuestionService(
     }
 
     @Transactional(readOnly = true)
-    fun getAnsweredQuestionsMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResult> =
+    fun getQuestionsAnsweredMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResult> =
         questionRetriever.findMyQuestionsMonthly(memberId, selectedYearMonth)
             .map {
                 QuestionResult(
@@ -36,4 +36,8 @@ class QuestionService(
                 )
             }
             .sortedByDescending { it.exposedAt } // 최신순 조회
+
+    @Transactional(readOnly = true)
+    fun getYearMonthAnswered(memberId: Long) : Set<YearMonth> =
+        questionRetriever.findAnsweredYearMonth(memberId)
 }

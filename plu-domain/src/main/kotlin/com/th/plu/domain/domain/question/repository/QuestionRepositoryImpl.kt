@@ -1,6 +1,7 @@
 package com.th.plu.domain.domain.question.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import com.th.plu.common.Slf4JKotlinLogging.log
 import com.th.plu.domain.domain.answer.QAnswer.answer
 import com.th.plu.domain.domain.member.QMember.member
 import com.th.plu.domain.domain.question.QQuestion.question
@@ -43,5 +44,25 @@ class QuestionRepositoryImpl(private val queryFactory: JPAQueryFactory) : Questi
                 )
             )
             .fetch()
+    }
+
+    // 쿼리 개선 필요, from 절 sub query 필요 -> JPA 외 다른 tool 사용해야함.
+    // 현재는 작성한 모든 질문의 날짜 조회됨 (full scan, 10000개 썼으면 10000개 read 됨)
+    // 월별로 1개씩 조회되도록 쿼리 개선 필요!
+    override fun findAllExposedAtIAnsweredMonth(memberId: Long): List<LocalDateTime> {
+        return queryFactory
+            .select(question.exposedAt)
+            .from(question)
+            .innerJoin(member).on(member.id.eq(memberId))
+            .innerJoin(answer).on(
+                answer.member.id.eq(member.id),
+                answer.question._id.eq(question._id),
+            )
+            .fetch()
+            .also {
+                if (it.size > 500) {
+                    log.warn { "작성한 질문이 500개 가 넘는 유저가 발생했습니다. 쿼리 개선이 필요합니다!" }
+                }
+            }
     }
 }

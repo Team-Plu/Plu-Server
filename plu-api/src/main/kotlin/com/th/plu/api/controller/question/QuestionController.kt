@@ -2,10 +2,7 @@ package com.th.plu.api.controller.question
 
 import com.th.plu.api.config.interceptor.Auth
 import com.th.plu.api.config.resolver.MemberId
-import com.th.plu.api.controller.question.dto.QuestionListResponse
-import com.th.plu.api.controller.question.dto.QuestionTodayResponse
-import com.th.plu.api.controller.question.dto.toQuestionListResponse
-import com.th.plu.api.controller.question.dto.toQuestionTodayResponse
+import com.th.plu.api.controller.question.dto.*
 import com.th.plu.common.dto.response.ApiResponse
 import com.th.plu.domain.domain.question.QuestionService
 import io.swagger.v3.oas.annotations.Operation
@@ -35,7 +32,15 @@ class QuestionController(
         @MemberId memberId: Long,
         @RequestParam("yearMonth") @DateTimeFormat(pattern = "yyyyMM") selectedYearMonth: YearMonth,
     ): ApiResponse<QuestionListResponse> =
-        questionService.getAnsweredQuestionsMonthly(memberId, selectedYearMonth).let {
+        questionService.getQuestionsAnsweredMonthly(memberId, selectedYearMonth).let {
             ApiResponse.success(toQuestionListResponse(it))
         }
+
+    @Auth
+    @Operation(summary = "답변 기록이 있는 년월 얻기")
+    @GetMapping("/api/v1/questions/answeredDate")
+    fun getYearMonthWhenIAnswered(
+        @MemberId memberId: Long,
+    ): ApiResponse<QuestionAnsweredResponse> =
+        questionService.getYearMonthAnswered(memberId).let { ApiResponse.success(toQuestionAnsweredResponse(it)) }
 }

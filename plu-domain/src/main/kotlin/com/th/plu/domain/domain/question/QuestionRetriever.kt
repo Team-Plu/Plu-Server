@@ -19,4 +19,9 @@ class QuestionRetriever(
 
     fun findMyQuestionsMonthly(memberId: Long, yearMonth: YearMonth): List<Question> =
         questionRepository.findAllByExposedMonthIn(memberId, yearMonth)
+
+    fun findAnsweredYearMonth(memberId: Long): Set<YearMonth> =
+        questionRepository.findAllExposedAtIAnsweredMonth(memberId)
+            .map { YearMonth.of(it.year, it.monthValue) }
+            .toSet() // application 에서 중복 처리중, 500 넘는 warn log 발생시 월별 1건 조회하도록 쿼리 개선 필요!
 }
