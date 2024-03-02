@@ -12,9 +12,9 @@ data class YearMonthResponse(
     val month: Int,
 )
 
-fun toQuestionAnsweredResponse(yearMonths: Set<YearMonth>) = QuestionAnsweredResponse(
+internal fun toQuestionAnsweredResponse(yearMonths: Set<YearMonth>) = QuestionAnsweredResponse(
     year = yearMonths.map { it.year }.sortedDescending(),
     yearMonth = yearMonths.map { toYearMonthResponse(it) }
 )
 
-fun toYearMonthResponse(yearMonth: YearMonth) = YearMonthResponse(year = yearMonth.year, month = yearMonth.monthValue)
+internal fun toYearMonthResponse(yearMonth: YearMonth) = YearMonthResponse(year = yearMonth.year, month = yearMonth.monthValue)
