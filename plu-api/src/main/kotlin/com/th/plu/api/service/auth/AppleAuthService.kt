@@ -3,9 +3,8 @@ package com.th.plu.api.service.auth
 import com.th.plu.api.controller.auth.dto.request.LoginRequestDto
 import com.th.plu.api.controller.auth.dto.request.SignupRequestDto
 import com.th.plu.api.service.member.MemberService
-import com.th.plu.api.service.member.MemberServiceUtils
 import com.th.plu.domain.domain.member.MemberSocialType
-import com.th.plu.domain.domain.member.repository.MemberRepository
+import com.th.plu.domain.domain.member.explorer.MemberExplorer
 import com.th.plu.external.client.apple.AppleTokenProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class AppleAuthService(
     private val appleTokenProvider: AppleTokenProvider,
     private val memberService: MemberService,
-    private val memberRepository: MemberRepository
+    private val memberExplorer: MemberExplorer
 ) : AuthService {
 
     companion object {
@@ -30,7 +29,7 @@ class AppleAuthService(
     @Transactional
     override fun login(request: LoginRequestDto): Long {
         val socialId = appleTokenProvider.getSocialIdFromIdToken(request.token)
-        val member = MemberServiceUtils.findMemberBySocialIdAndSocialType(memberRepository, socialId, socialType)
+        val member = memberExplorer.findMemberBySocialIdAndSocialType(socialId, socialType)
         member.updateFcmToken(request.fcmToken)
         return member.id!!
     }
