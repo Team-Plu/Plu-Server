@@ -1,29 +1,31 @@
 plugins {
-	kotlin("jvm")
+    kotlin("jvm")
 }
 tasks.jar {
-	enabled = true
+    enabled = true
 }
 
 tasks.bootJar {
-	enabled = false
+    enabled = false
 }
 
 val queryDslVersion = "5.0.0" // QueryDSL Version Setting
 
 dependencies {
-	// DB
-	runtimeOnly("com.mysql:mysql-connector-j")
+    implementation(project(":plu-common"))
 
-	// JPA
-	api("org.springframework.boot:spring-boot-starter-data-jpa")
+    // DB
+    runtimeOnly("com.mysql:mysql-connector-j")
 
-	// QueryDSL
-	implementation ("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
-	kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
-	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
-	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-	implementation(kotlin("stdlib-jdk8"))
+    // JPA
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // QueryDSL
+    implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
+    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 /**
@@ -32,21 +34,21 @@ dependencies {
 val querydslDir = "build/querydsl/generated"
 
 sourceSets {
-	getByName("main").kotlin.srcDirs(querydslDir)
+    getByName("main").kotlin.srcDirs(querydslDir)
 }
 
 tasks.withType<JavaCompile> {
-	options.generatedSourceOutputDirectory.set(file(querydslDir))
+    options.generatedSourceOutputDirectory.set(file(querydslDir))
 }
 
 tasks.named("clean") {
-	doLast {
-		file(querydslDir).deleteRecursively()
-	}
+    doLast {
+        file(querydslDir).deleteRecursively()
+    }
 }
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 kotlin {
-	jvmToolchain(17)
+    jvmToolchain(17)
 }

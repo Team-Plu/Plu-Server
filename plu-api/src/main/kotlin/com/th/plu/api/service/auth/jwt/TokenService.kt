@@ -2,19 +2,18 @@ package com.th.plu.api.service.auth.jwt
 
 import com.th.plu.api.controller.auth.dto.request.TokenRequestDto
 import com.th.plu.api.controller.auth.dto.response.TokenResponseDto
-import com.th.plu.api.service.member.MemberServiceUtils
 import com.th.plu.api.service.redis.RedisHandler
 import com.th.plu.common.constant.RedisKey
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.UnauthorizedException
-import com.th.plu.domain.domain.member.repository.MemberRepository
+import com.th.plu.domain.domain.member.explorer.MemberExplorer
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TokenService(
     private val jwtHandler: JwtHandler,
-    private val memberRepository: MemberRepository,
+    private val memberExplorer: MemberExplorer,
     private val redisHandler: RedisHandler
 ) {
     fun createTokenInfo(memberId: Long): TokenResponseDto {
@@ -25,7 +24,7 @@ class TokenService(
     @Transactional
     fun reissueToken(request: TokenRequestDto): TokenResponseDto {
         val memberId = jwtHandler.getMemberIdFromJwt(request.accessToken)
-        val member = MemberServiceUtils.findMemberById(memberRepository, memberId)
+        val member = memberExplorer.findMemberById(memberId)
         if (!jwtHandler.validateToken(request.refreshToken)) {
             member.resetFcmToken()
             throw UnauthorizedException(
