@@ -3,6 +3,7 @@ package com.th.plu.domain.domain.question
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.YearMonth
 
 @Service
 class QuestionService(
@@ -16,8 +17,23 @@ class QuestionService(
                 questionId = todayQuestion.id,
                 title = todayQuestion.title,
                 content = todayQuestion.content,
-                characterImageUrl = todayQuestion.elementType.characterImageUrl
+                elementType = todayQuestion.elementType,
+                exposedAt = todayQuestion.exposedAt
             )
         }
     }
+
+    @Transactional(readOnly = true)
+    fun getAnsweredQuestionsMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResult> =
+        questionRetriever.findMyQuestionsMonthly(memberId, selectedYearMonth)
+            .map {
+                QuestionResult(
+                    questionId = it.id,
+                    title = it.title,
+                    content = it.content,
+                    elementType = it.elementType,
+                    exposedAt = it.exposedAt
+                )
+            }
+            .sortedByDescending { it.exposedAt } // 최신순 조회
 }

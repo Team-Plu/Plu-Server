@@ -5,6 +5,7 @@ import com.th.plu.common.exception.model.InternalServerException
 import com.th.plu.domain.domain.question.repository.QuestionRepository
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
+import java.time.YearMonth
 
 @Component
 class QuestionRetriever(
@@ -15,4 +16,7 @@ class QuestionRetriever(
             ErrorCode.DATA_NOT_READY_EXCEPTION,
             "($date) 날짜의 질문데이터가 준비되지 않았습니다. "
         )
+
+    fun findMyQuestionsMonthly(memberId: Long, yearMonth: YearMonth): List<Question> =
+        questionRepository.findAllByExposedMonthIn(memberId, yearMonth)
 }
