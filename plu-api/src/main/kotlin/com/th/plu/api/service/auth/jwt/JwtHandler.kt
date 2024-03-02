@@ -1,6 +1,7 @@
 package com.th.plu.api.service.auth.jwt
 
 import com.th.plu.api.service.redis.RedisHandler
+import com.th.plu.common.Slf4JKotlinLogging.log
 import com.th.plu.common.constant.JwtKey
 import com.th.plu.common.constant.RedisKey
 import com.th.plu.common.exception.code.ErrorCode
@@ -10,7 +11,6 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.io.DecodingException
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
@@ -23,7 +23,6 @@ class JwtHandler(
     @Value("\${jwt.secret}")
     private var jwtSecret: String? = null
     private var secretKey: Key? = null
-    private val log = LoggerFactory.getLogger(this.javaClass)
 
     companion object {
         // private const val ACCESS_TOKEN_EXPIRE_TIME = 10 * 60 * 1000L // 10분
@@ -71,19 +70,19 @@ class JwtHandler(
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token)
             return true
         } catch (e: SecurityException) {
-            log.warn("Invalid JWT Token", e)
+            log.warn(e) { "Invalid JWT Token" }
         } catch (e: MalformedJwtException) {
-            log.warn("Invalid JWT Token", e)
+            log.warn(e) { "Invalid JWT Token" }
         } catch (e: DecodingException) {
-            log.warn("Invalid JWT Token", e)
+            log.warn(e) { "Invalid JWT Token" }
         } catch (e: ExpiredJwtException) {
-            log.warn("Expired JWT Token", e)
+            log.warn(e) { "Expired JWT Token" }
         } catch (e: UnsupportedJwtException) {
-            log.warn("Unsupported JWT Token", e)
+            log.warn(e) { "Unsupported JWT Token" }
         } catch (e: IllegalArgumentException) {
-            log.warn("JWT claims string is empty.", e)
+            log.warn(e) { "JWT claims string is empty." }
         } catch (e: Exception) {
-            log.error("Unhandled JWT exception", e)
+            log.error(e) { "Unhandled JWT exception" }
         }
         return false
     }

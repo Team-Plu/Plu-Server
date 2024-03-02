@@ -2,11 +2,11 @@ package com.th.plu.notification.firebase
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.auth.oauth2.GoogleCredentials
+import com.th.plu.common.Slf4JKotlinLogging.log
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.BadGatewayException
 import com.th.plu.external.client.firebase.FirebaseApiCaller
 import com.th.plu.notification.firebase.dto.FcmMessageRequest
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
@@ -22,7 +22,6 @@ class FirebaseCloudMessageService(
     @Value("\${spring.cloud.firebase.auth.uri}")
     private var firebaseAuthUri: String? = null
 
-    private val log = LoggerFactory.getLogger(this.javaClass)
     private val LOG_PREFIX = "====> [Firebase Cloud Message]"
 
     fun sendMessageTo(fcmToken: String?, title: String, body: String) {
@@ -46,10 +45,10 @@ class FirebaseCloudMessageService(
 
             return googleCredentials.accessToken.tokenValue
         } catch (exception: Exception) {
-            log.error(exception.message, exception)
+            log.error(exception) { exception.message }
             throw BadGatewayException(
                 ErrorCode.BAD_GATEWAY_EXCEPTION,
-                "${LOG_PREFIX} FCM Access Token 발급 과정에서 에러가 발생하였습니다."
+                "$LOG_PREFIX FCM Access Token 발급 과정에서 에러가 발생하였습니다."
             )
         }
     }
