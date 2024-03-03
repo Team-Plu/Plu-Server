@@ -20,24 +20,32 @@ class Answer(
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "answer_id")
-        private var id: Long? = null,
+        var id: Long? = null,
 
         @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "member_id", nullable = false)
-        private var member: Member,
+        var member: Member,
 
         @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "question_id", nullable = false)
-        private var question: Question,
+        var question: Question,
 
         @Column(name = "answer_content", nullable = false)
-        private var content: String,
+        var content: String,
 
         @Column(name = "is_public", nullable = false)
-        private var isPublic: Boolean,
+        var isPublic: Boolean,
 
         @OneToMany(mappedBy = "answer", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
         var likes: List<Like> = mutableListOf()
 
 ) : BaseEntity() {
+
+    fun getLikeCount(): Int {
+        return likes.size
+    }
+
+    fun getQuestionId(): Long {
+        return question.id!!
+    }
 }
