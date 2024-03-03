@@ -43,5 +43,12 @@ class MemberController(
         memberService.deleteMember(memberId)
         return ApiResponse.success()
     }
-    
+
+    @Auth
+    @Operation(summary = "[인증] 마이페이지 조회")
+    @GetMapping("/api/v1/mypage")
+    fun getMyPageInfo(@MemberId memberId: Long): ApiResponse<MyPageResponse> {
+        val myPageInfo = memberService.getMyPageInfo(memberId)
+        return ApiResponse.success(data = myPageInfo)
+    }
 }

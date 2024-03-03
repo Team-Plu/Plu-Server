@@ -70,4 +70,13 @@ class MemberService(
         memberRepository.delete(member)
     }
 
+    @Transactional(readOnly = true)
+    fun getMyPageInfo(memberId: Long): MyPageResponse {
+        val member = memberExplorer.findMemberById(memberId)
+        return MyPageResponse(
+                nickname = member.onboarding?.nickname ?: "",
+                notificationStatus = member.setting.notificationStatus
+        )
+    }
+
 }
