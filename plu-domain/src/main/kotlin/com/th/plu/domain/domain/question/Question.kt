@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 class Question(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
-    var _id: Long? = null,
+    private var _id: Long? = null,
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var answers: List<Answer>,
@@ -28,7 +28,6 @@ class Question(
     @Enumerated(EnumType.STRING)
     var elementType: ElementType = elementType
         private set
-
 
     @Column(name = "question_title", nullable = false, length = 100)
     var title: String = title

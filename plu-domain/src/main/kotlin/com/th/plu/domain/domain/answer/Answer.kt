@@ -10,7 +10,12 @@ import lombok.Builder
 import lombok.NoArgsConstructor
 
 
-@Table(name = "answers")
+@Table(
+    name = "answers",
+    uniqueConstraints = [
+        UniqueConstraint(name = "idk01_answers", columnNames = ["member_id", "question_id"])
+    ]
+)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,7 +24,7 @@ class Answer(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_id")
-    private var id: Long? = null,
+    private var _id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "member_id", nullable = false)
@@ -29,11 +34,17 @@ class Answer(
     @JoinColumn(name = "question_id", nullable = false)
     private var question: Question,
 
+    content: String,
+    isPublic: Boolean,
+) : BaseEntity() {
+    val id: Long
+        get() = _id ?: throw PersistenceException("아직 save 되지 않은 entity 의 id 에대한 접근입니다.")
+
     @Column(name = "answer_content", nullable = false)
-    private var content: String,
+    var content: String = content
+        private set
 
     @Column(name = "is_public", nullable = false)
-    private var isPublic: Boolean
-
-) : BaseEntity() {
+    var isPublic: Boolean = isPublic
+        private set
 }
