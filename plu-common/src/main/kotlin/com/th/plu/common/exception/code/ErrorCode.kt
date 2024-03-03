@@ -23,6 +23,7 @@ enum class ErrorCode(val code: String, val message: String) {
     NOT_FOUND_MEMBER_EXCEPTION("N002", "탈퇴했거나 존재하지 않는 회원입니다."),
     NOT_FOUND_ANSWER_EXCEPTION("N003", "존재하지 않는 답변입니다."),
     NOT_FOUND_QUESTION_EXCEPTION("N004", "존재하지 않는 질문입니다."),
+    NOT_FOUND_LIKE_EXCEPTION("N005", "존재하지 않는 공감 정보입니다."),
     NOT_FOUND_ARTICLE_CONTENT_EXCEPTION("N003", "아티클의 컨텐츠가 존재하지 않습니다."),
     NOT_FOUND_CHALLENGE_EXCEPTION("N004", "존재하지 않는 챌린지입니다."),
     NOT_FOUND_ARTICLE_EXCEPTION("N005", "삭제되었거나 존재하지 않는 아티클입니다."),
@@ -32,6 +33,7 @@ enum class ErrorCode(val code: String, val message: String) {
     // Conflict Exception
     CONFLICT_EXCEPTION("C001", "이미 존재합니다."),
     CONFLICT_MEMBER_EXCEPTION("C002", "이미 해당 계정으로 회원가입하셨습니다.\n로그인 해주세요."),
+    CONFLICT_LIKE_EXCEPTION("C003", "이미 해당 답변에 대한 공감이 되어있습니다."),
     CONFLICT_BOOKMARK_EXCEPTION("C003", "요청과 동일한 북마크 상태 입니다."),
 
     // Internal Server Exception
