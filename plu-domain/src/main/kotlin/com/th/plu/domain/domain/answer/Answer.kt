@@ -44,8 +44,4 @@ class Answer(
     fun getLikeCount(): Int {
         return likes.size
     }
-
-    fun getQuestionId(): Long {
-        return question.id!!
-    }
 }

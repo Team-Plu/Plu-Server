@@ -1,6 +1,7 @@
 package com.th.plu.api.controller.answer
 
 import com.th.plu.api.config.interceptor.Auth
+import com.th.plu.api.config.resolver.MemberId
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
 import com.th.plu.api.service.answer.AnswerService
 import com.th.plu.common.dto.response.ApiResponse
@@ -21,10 +22,19 @@ class AnswerController(
         return ApiResponse.success(answerService.findAnswerInfoById(answerId))
     }
 
-    @Operation(summary = "답변 좋아요")
+    @Auth
+    @Operation(summary = "답변 공감")
     @PostMapping("/v1/answer/like/{answerId}")
-    fun likeAnswer(@PathVariable answerId: Long): ApiResponse<Any> {
-        answerService.likeAnswerById(1L, answerId)
+    fun likeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
+        answerService.likeAnswerById(memberId, answerId)
+        return ApiResponse.success()
+    }
+
+    @Auth
+    @Operation(summary = "답변 좋아요")
+    @DeleteMapping("/v1/answer/like/{answerId}")
+    fun dislikeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
+        answerService.dislikeAnswerById(memberId, answerId)
         return ApiResponse.success()
     }
 }

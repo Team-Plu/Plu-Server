@@ -15,15 +15,15 @@ class Like(
         @Column(name = "like_id")
         var id: Long? = null,
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "member_id", nullable = false)
         var member: Member,
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "answer_id", nullable = false)
         var answer: Answer,
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "question_id", nullable = false)
         var question: Question
 

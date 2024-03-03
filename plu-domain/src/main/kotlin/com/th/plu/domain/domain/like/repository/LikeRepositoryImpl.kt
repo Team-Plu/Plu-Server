@@ -14,7 +14,7 @@ class LikeRepositoryImpl(private val queryFactory: JPAQueryFactory) : LikeReposi
         return queryFactory
                 .selectFrom(like)
                 .where(like.id.eq(id))
-                .fetchOne();
+                .fetchOne()
     }
 
     override fun existByMemberAndAnswerAndQuestion(member: Member, answer: Answer, question: Question): Boolean {
@@ -25,6 +25,15 @@ class LikeRepositoryImpl(private val queryFactory: JPAQueryFactory) : LikeReposi
                         like.answer.eq(answer),
                         like.question.eq(question)
                 ).fetchOne() != null
+    }
 
+    override fun findLikeByMemberAndAnswerAndQuestion(member: Member, answer: Answer, question: Question): Like? {
+        return queryFactory
+                .selectFrom(like)
+                .where(
+                        like.member.eq(member),
+                        like.answer.eq(answer),
+                        like.question.eq(question)
+                ).fetchOne()
     }
 }

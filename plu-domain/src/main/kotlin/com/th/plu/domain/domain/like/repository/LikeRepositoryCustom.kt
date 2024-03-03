@@ -10,4 +10,6 @@ interface LikeRepositoryCustom {
     fun findLikeById(id: Long): Like?
 
     fun existByMemberAndAnswerAndQuestion(member: Member, answer: Answer, question: Question): Boolean
+
+    fun findLikeByMemberAndAnswerAndQuestion(member: Member, answer: Answer, question: Question): Like?
 }
