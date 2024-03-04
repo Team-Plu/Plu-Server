@@ -4,7 +4,7 @@ import com.th.plu.domain.domain.answer.Answer
 import com.th.plu.domain.domain.question.Question
 import java.time.LocalDateTime
 
-class AnswerInfoResponse(
+data class AnswerInfoResponse(
         val questionDate: LocalDateTime,
         val questionTitle: String,
         val answer: String,
