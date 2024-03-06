@@ -31,8 +31,10 @@ CREATE TABLE `questions`
     `element_type`     varchar(30)  NOT NULL,
     `question_title`   varchar(100) NOT NULL,
     `question_content` varchar(300) NOT NULL,
+    `exposed_at`       datetime     NOT NULL,
     `created_at`       datetime     NOT NULL,
-    `modified_at`      datetime     NOT NULL
+    `modified_at`      datetime     NOT NULL,
+    constraint unique ink01_questions(exposed_at)
 );
 
 CREATE TABLE `answers`
