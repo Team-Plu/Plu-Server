@@ -7,25 +7,25 @@ import java.time.YearMonth
 
 @Service
 class QuestionService(
-    private val questionRetriever: QuestionRetriever,
+    private val questionExplorer: QuestionExplorer,
 ) {
     @Transactional(readOnly = true)
     fun getQuestionToday(): QuestionResultDto {
         val today = LocalDateTime.now()
-        return questionRetriever.findQuestion(today).let { todayQuestion ->
+        return questionExplorer.findQuestion(today).let { todayQuestion ->
             QuestionResultDto(
                 questionId = todayQuestion.id,
                 title = todayQuestion.title,
                 content = todayQuestion.content,
                 elementType = todayQuestion.elementType,
-                exposedAt = todayQuestion.exposedAt
+                exposedAt = todayQuestion.exposedAt,
             )
         }
     }
 
     @Transactional(readOnly = true)
     fun getQuestionsAnsweredMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResultDto> =
-        questionRetriever.findMyQuestionsMonthly(memberId, selectedYearMonth)
+        questionExplorer.findMyQuestionsMonthly(memberId, selectedYearMonth)
             .map {
                 QuestionResultDto(
                     questionId = it.id,
@@ -39,5 +39,5 @@ class QuestionService(
 
     @Transactional(readOnly = true)
     fun getYearMonthAnswered(memberId: Long) : Set<YearMonth> =
-        questionRetriever.findAnsweredYearMonth(memberId)
+        questionExplorer.findAnsweredYearMonth(memberId)
 }

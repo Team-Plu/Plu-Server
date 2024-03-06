@@ -8,4 +8,5 @@ data class QuestionResultDto(
     val content: String,
     val elementType: ElementType,
     val exposedAt: LocalDateTime,
+    val answered: Boolean,
 )

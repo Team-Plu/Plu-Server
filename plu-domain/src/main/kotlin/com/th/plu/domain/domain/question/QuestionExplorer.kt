@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 
 @Component
-class QuestionRetriever(
+class QuestionExplorer(
     private val questionRepository: QuestionRepository,
 ) {
     fun findQuestion(date: LocalDateTime): Question =
@@ -21,7 +21,7 @@ class QuestionRetriever(
         questionRepository.findAllByExposedMonthIn(memberId, yearMonth)
 
     fun findAnsweredYearMonth(memberId: Long): Set<YearMonth> =
-        questionRepository.findAllExposedAtIAnsweredMonth(memberId)
+        questionRepository.findAllExposedAtInAnsweredMonth(memberId)
             .map { YearMonth.of(it.year, it.monthValue) }
             .toSet() // application 에서 중복 처리중, 500 넘는 warn log 발생시 월별 1건 조회하도록 쿼리 개선 필요!
 }

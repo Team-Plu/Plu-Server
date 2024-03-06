@@ -36,11 +36,16 @@ class QuestionRepositoryImpl(private val queryFactory: JPAQueryFactory) : Questi
                 answer.question._id.eq(question._id),
             )
             .where(
-                question.exposedAt.between(
-                    // start (first day of month)
-                    LocalDateTime.of(yearMonth.year, yearMonth.monthValue, 1, 0, 0),
-                    // end (end day of month, 윤년 포함)
-                    LocalDateTime.of(yearMonth.year, yearMonth.monthValue, yearMonth.month.maxLength(), 0, 0),
+                // start (first day of month)
+                question.exposedAt.goe(
+                    LocalDateTime.of(yearMonth.year, yearMonth.monthValue, 1, 0, 0)
+                ),
+
+                // end (first day of next month)
+                question.exposedAt.lt(
+                    yearMonth.plusMonths(1).let {
+                        LocalDateTime.of(it.year, it.monthValue, 1, 0, 0)
+                    },
                 )
             )
             .fetch()
@@ -49,7 +54,7 @@ class QuestionRepositoryImpl(private val queryFactory: JPAQueryFactory) : Questi
     // 쿼리 개선 필요, from 절 sub query 필요 -> JPA 외 다른 tool 사용해야함.
     // 현재는 작성한 모든 질문의 날짜 조회됨 (full scan, 10000개 썼으면 10000개 read 됨)
     // 월별로 1개씩 조회되도록 쿼리 개선 필요!
-    override fun findAllExposedAtIAnsweredMonth(memberId: Long): List<LocalDateTime> {
+    override fun findAllExposedAtInAnsweredMonth(memberId: Long): List<LocalDateTime> {
         return queryFactory
             .select(question.exposedAt)
             .from(question)

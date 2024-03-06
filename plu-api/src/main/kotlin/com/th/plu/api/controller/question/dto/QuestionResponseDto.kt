@@ -10,6 +10,7 @@ data class QuestionResponseDto(
     val exposedAt: LocalDateTime,
     val characterImageUrl: String,
     val elementType: ElementType,
+    val answered: Boolean,
 )
 
 internal fun toQuestionResponseDto(result: QuestionResultDto) = QuestionResponseDto(
@@ -18,4 +19,5 @@ internal fun toQuestionResponseDto(result: QuestionResultDto) = QuestionResponse
     exposedAt = result.exposedAt,
     characterImageUrl = result.elementType.characterImageUrl,
     elementType = result.elementType,
+    answered = result.answered,
 )
