@@ -1,10 +1,10 @@
 package com.th.plu.api.controller.question.dto
 
 import com.th.plu.domain.domain.question.ElementType
-import com.th.plu.domain.domain.question.QuestionResult
+import com.th.plu.domain.domain.question.QuestionResultDto
 import java.time.LocalDateTime
 
-data class QuestionResponse(
+data class QuestionResponseDto(
     val title: String,
     val content: String,
     val exposedAt: LocalDateTime,
@@ -12,7 +12,7 @@ data class QuestionResponse(
     val elementType: ElementType,
 )
 
-internal fun toQuestionResponse(result: QuestionResult) = QuestionResponse(
+internal fun toQuestionResponseDto(result: QuestionResultDto) = QuestionResponseDto(
     title = result.title,
     content = result.content,
     exposedAt = result.exposedAt,

@@ -21,8 +21,8 @@ class QuestionController(
     @Auth
     @Operation(summary = "오늘의 질문")
     @GetMapping("/api/v1/questions/today")
-    fun getQuestionToday(): ApiResponse<QuestionTodayResponse> = questionService.getQuestionToday().let {
-        ApiResponse.success(toQuestionTodayResponse(it))
+    fun getQuestionToday(): ApiResponse<QuestionTodayResponseDto> = questionService.getQuestionToday().let {
+        ApiResponse.success(toQuestionTodayResponseDto(it))
     }
 
     @Auth
@@ -31,9 +31,9 @@ class QuestionController(
     fun getQuestionsWhatIAnsweredMonthly(
         @MemberId memberId: Long,
         @RequestParam("yearMonth") @DateTimeFormat(pattern = "yyyyMM") selectedYearMonth: YearMonth,
-    ): ApiResponse<QuestionListResponse> =
+    ): ApiResponse<QuestionListResponseDto> =
         questionService.getQuestionsAnsweredMonthly(memberId, selectedYearMonth).let {
-            ApiResponse.success(toQuestionListResponse(it))
+            ApiResponse.success(toQuestionListResponseDto(it))
         }
 
     @Auth
@@ -41,6 +41,6 @@ class QuestionController(
     @GetMapping("/api/v1/questions/answeredDate")
     fun getYearMonthWhenIAnswered(
         @MemberId memberId: Long,
-    ): ApiResponse<QuestionAnsweredResponse> =
+    ): ApiResponse<QuestionAnsweredResponseDto> =
         questionService.getYearMonthAnswered(memberId).let { ApiResponse.success(toQuestionAnsweredResponse(it)) }
 }

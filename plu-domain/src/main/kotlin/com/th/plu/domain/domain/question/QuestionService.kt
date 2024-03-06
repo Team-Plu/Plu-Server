@@ -10,10 +10,10 @@ class QuestionService(
     private val questionRetriever: QuestionRetriever,
 ) {
     @Transactional(readOnly = true)
-    fun getQuestionToday(): QuestionResult {
+    fun getQuestionToday(): QuestionResultDto {
         val today = LocalDateTime.now()
         return questionRetriever.findQuestion(today).let { todayQuestion ->
-            QuestionResult(
+            QuestionResultDto(
                 questionId = todayQuestion.id,
                 title = todayQuestion.title,
                 content = todayQuestion.content,
@@ -24,10 +24,10 @@ class QuestionService(
     }
 
     @Transactional(readOnly = true)
-    fun getQuestionsAnsweredMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResult> =
+    fun getQuestionsAnsweredMonthly(memberId: Long, selectedYearMonth: YearMonth): List<QuestionResultDto> =
         questionRetriever.findMyQuestionsMonthly(memberId, selectedYearMonth)
             .map {
-                QuestionResult(
+                QuestionResultDto(
                     questionId = it.id,
                     title = it.title,
                     content = it.content,

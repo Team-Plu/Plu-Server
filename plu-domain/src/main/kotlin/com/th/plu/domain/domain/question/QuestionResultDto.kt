@@ -2,7 +2,7 @@ package com.th.plu.domain.domain.question
 
 import java.time.LocalDateTime
 
-data class QuestionResult(
+data class QuestionResultDto(
     val questionId: Long,
     val title: String,
     val content: String,
