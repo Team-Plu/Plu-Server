@@ -9,6 +9,7 @@ data class WritingAnswerResult(
     val questionContent: String,
     val questionExposedAt: LocalDateTime,
     val questionElementType: ElementType,
+    val questionAnswered: Boolean,
 
     val answerId: Long,
     val answerBody: String,

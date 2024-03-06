@@ -1,9 +1,12 @@
-package com.th.plu.domain.domain.answer
+package com.th.plu.api.service.answer
 
 import com.th.plu.common.exception.code.ErrorCode
 import com.th.plu.common.exception.model.ConflictException
+import com.th.plu.domain.domain.answer.AnswerRegister
+import com.th.plu.domain.domain.answer.AnswerWriting
+import com.th.plu.domain.domain.answer.WritingAnswerResult
 import com.th.plu.domain.domain.member.explorer.MemberExplorer
-import com.th.plu.domain.domain.question.QuestionRetriever
+import com.th.plu.domain.domain.question.QuestionExplorer
 import com.th.plu.domain.isUniqueError
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
@@ -13,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional
 class AnswerService(
     private val answerRegister: AnswerRegister,
     private val memberExplorer: MemberExplorer,
-    private val questionRetriever: QuestionRetriever,
+    private val questionExplorer: QuestionExplorer,
 ) {
     @Transactional
     fun writeAnswer(memberId: Long, questionId: Long, answerWriting: AnswerWriting): WritingAnswerResult {
         // validate not found
         val memberEntity = memberExplorer.findMemberById(memberId)
-        val questionEntity = questionRetriever.findQuestion(questionId)
+        val questionEntity = questionExplorer.findQuestion(questionId)
 
         return try {
             answerRegister.registerAnswer(memberEntity, questionEntity, answerWriting.body, answerWriting.open).let {
@@ -29,6 +32,7 @@ class AnswerService(
                     questionContent = questionEntity.content,
                     questionExposedAt = questionEntity.exposedAt,
                     questionElementType = questionEntity.elementType,
+                    questionAnswered = true,
                     answerId = it.id,
                     answerBody = it.content,
                     reactionLikeCount = 0 // 최초 생성시는 0

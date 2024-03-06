@@ -48,3 +48,11 @@ class Answer(
     var isPublic: Boolean = isPublic
         private set
 }
+
+fun newAnswerInstance(member: Member, question: Question, content: String, isPublic: Boolean) = Answer(
+    _id = null,
+    member = member,
+    question = question,
+    content = content,
+    isPublic = isPublic,
+)

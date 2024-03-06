@@ -11,13 +11,5 @@ class AnswerRegister(
 ) {
     // may throw unique exception
     fun registerAnswer(memberEntity: Member, questionEntity: Question, body: String, answerOpen: Boolean) =
-        answerRepository.save(
-            Answer(
-                _id = null,
-                member = memberEntity,
-                question = questionEntity,
-                content = body,
-                isPublic = answerOpen
-            )
-        )
+        answerRepository.save(newAnswerInstance(memberEntity, questionEntity, body, answerOpen))
 }

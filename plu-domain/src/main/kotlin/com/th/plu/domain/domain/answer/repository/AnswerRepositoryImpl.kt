@@ -10,7 +10,17 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
     override fun findAnswerById(id: Long): Answer? {
         return queryFactory
             .selectFrom(answer)
-            .where(answer._id.eq(id))
+            .where(answer.id.eq(id))
             .fetchOne()
+    }
+
+    override fun existsByMemberIdAndQuestionId(memberId: Long, questionId: Long): Boolean {
+        return queryFactory
+            .selectFrom(answer)
+            .where(
+                answer.member.id.eq(memberId),
+                answer.question._id.eq(questionId),
+            )
+            .fetchFirst() != null
     }
 }
