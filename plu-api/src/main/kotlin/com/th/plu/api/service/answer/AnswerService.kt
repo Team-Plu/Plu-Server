@@ -10,10 +10,14 @@ import org.springframework.transaction.annotation.Transactional
 class AnswerService(
         private val questionExplorer: QuestionExplorer,
         private val answerExplorer: AnswerExplorer,
+        private val answerValidator: AnswerValidator
 ) {
     @Transactional(readOnly = true)
-    fun findAnswerInfoById(id: Long): AnswerInfoResponse {
-        val answer = answerExplorer.findAnswerById(id)
+    fun findAnswerInfoById(answerId: Long, memberId: Long): AnswerInfoResponse {
+        val answer = answerExplorer.findAnswerById(answerId)
+        if (!answer.isPublic) {
+            answerValidator.validateIsMemberOwnerOfAnswer(answerId, memberId)
+        }
         val question = questionExplorer.findQuestionById(answer.getQuestionId())
 
         return AnswerInfoResponse.of(question, answer)

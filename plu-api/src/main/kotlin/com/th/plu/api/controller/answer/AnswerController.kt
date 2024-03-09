@@ -1,6 +1,7 @@
 package com.th.plu.api.controller.answer
 
 import com.th.plu.api.config.interceptor.Auth
+import com.th.plu.api.config.resolver.MemberId
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
 import com.th.plu.api.service.answer.AnswerService
 import com.th.plu.common.dto.response.ApiResponse
@@ -20,7 +21,7 @@ class AnswerController(
     @Auth
     @Operation(summary = "답변 조회")
     @GetMapping("/v1/answer/{answerId}")
-    fun findAnswerById(@PathVariable answerId: Long): ApiResponse<AnswerInfoResponse> {
-        return ApiResponse.success(answerService.findAnswerInfoById(answerId))
+    fun findAnswerById(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<AnswerInfoResponse> {
+        return ApiResponse.success(answerService.findAnswerInfoById(answerId, memberId))
     }
 }

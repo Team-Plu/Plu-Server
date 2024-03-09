@@ -10,6 +10,7 @@ enum class ErrorCode(val code: String, val message: String) {
     BIND_EXCEPTION("V005", "요청 값을 바인딩하는 과정에서 오류가 발생하였습니다."),
     METHOD_ARGUMENT_NOT_VALID_EXCEPTION("V006", "요청 값이 검증되지 않은 값 입니다."),
     INVALID_FORMAT_EXCEPTION("V007", "요청 값이 유효하지 않은 데이터입니다."),
+    INVALID_ANSWER_OWNER("V008", "질문의 소유자가 아닙니다."),
 
     // Unauthorized Exception
     UNAUTHORIZED_EXCEPTION("U001", "토큰이 만료되었습니다. 다시 로그인 해주세요."),
