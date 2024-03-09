@@ -1,8 +1,10 @@
 package com.th.plu.api.service.answer
 
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
+import com.th.plu.api.controller.answer.dto.response.AnswerRetrievePageNationResponses
 import com.th.plu.api.service.like.LikeValidator
 import com.th.plu.domain.domain.answer.explorer.AnswerExplorer
+import com.th.plu.domain.domain.answer.repository.AnswerRepository
 import com.th.plu.domain.domain.like.Like
 import com.th.plu.domain.domain.like.explorer.LikeExplorer
 import com.th.plu.domain.domain.like.repository.LikeRepository
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AnswerService(
         private val answerExplorer: AnswerExplorer,
+        private val answerRepository: AnswerRepository,
         private val likeRepository: LikeRepository,
         private val likeExplorer: LikeExplorer,
         private val likeValidator: LikeValidator,
@@ -45,5 +48,12 @@ class AnswerService(
 
         val like = likeExplorer.findLikeByMemberAndAnswerAndQuestion(member = member, answer = answer, question = answer.question)
         likeRepository.delete(like)
+    }
+
+    @Transactional(readOnly = true)
+    fun retrieveTodayAnswersWithCursor(lastAnswerId: Long, pageSize: Long): AnswerRetrievePageNationResponses {
+        val answerInfos = answerRepository.findTodayAnswersWithCursorAndPageSize(lastAnswerId, pageSize)
+
+        return AnswerRetrievePageNationResponses.fromAnswerInfos(answerInfos)
     }
 }
