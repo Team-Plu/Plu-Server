@@ -19,7 +19,7 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
                 .fetchOne()
     }
 
-    override fun findTodayAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<Tuple> {
+    override fun findEveryAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<Tuple> {
         val startOfDay = LocalDateTime.of(LocalDateTime.now().minusDays(1).toLocalDate(), LocalTime.MAX)
         val endOfDay = LocalDateTime.of(LocalDateTime.now().plusDays(1).toLocalDate(), LocalTime.MIN)
 

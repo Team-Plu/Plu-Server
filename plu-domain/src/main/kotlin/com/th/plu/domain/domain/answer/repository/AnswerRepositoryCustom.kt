@@ -6,5 +6,5 @@ import com.th.plu.domain.domain.answer.Answer
 interface AnswerRepositoryCustom {
     fun findAnswerById(id: Long): Answer?
 
-    fun findTodayAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<Tuple>
+    fun findEveryAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<Tuple>
 }
