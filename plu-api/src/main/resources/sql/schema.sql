@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `settings`;
 DROP TABLE IF EXISTS `questions`;
 DROP TABLE IF EXISTS `answers`;
 DROP TABLE IF EXISTS `onboardings`;
+DROP TABLE IF EXISTS `likes`;
 
 
 CREATE TABLE `members`
@@ -53,4 +54,14 @@ CREATE TABLE `onboardings`
     `nickname`      varchar(30) NOT NULL,
     `created_at`    datetime    NOT NULL,
     `modified_at`   datetime    NOT NULL
+);
+
+CREATE TABLE `likes`
+(
+    `like_id`     bigint auto_increment primary key,
+    `question_id` bigint   NOT NULL,
+    `answer_id`   bigint   NOT NULL,
+    `member_id`   bigint   NOT NULL,
+    `created_at`  datetime NOT NULL,
+    `modified_at` datetime NOT NULL
 );

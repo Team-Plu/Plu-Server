@@ -10,6 +10,7 @@ enum class ErrorCode(val code: String, val message: String) {
     BIND_EXCEPTION("V005", "요청 값을 바인딩하는 과정에서 오류가 발생하였습니다."),
     METHOD_ARGUMENT_NOT_VALID_EXCEPTION("V006", "요청 값이 검증되지 않은 값 입니다."),
     INVALID_FORMAT_EXCEPTION("V007", "요청 값이 유효하지 않은 데이터입니다."),
+    INVALID_ANSWER_OWNER("V008", "질문의 소유자가 아닙니다."),
 
     // Unauthorized Exception
     UNAUTHORIZED_EXCEPTION("U001", "토큰이 만료되었습니다. 다시 로그인 해주세요."),
@@ -21,6 +22,8 @@ enum class ErrorCode(val code: String, val message: String) {
     // NotFound Exception
     NOT_FOUND_EXCEPTION("N001", "존재하지 않습니다."),
     NOT_FOUND_MEMBER_EXCEPTION("N002", "탈퇴했거나 존재하지 않는 회원입니다."),
+    NOT_FOUND_ANSWER_EXCEPTION("N003", "존재하지 않는 답변입니다."),
+    NOT_FOUND_QUESTION_EXCEPTION("N004", "존재하지 않는 질문입니다."),
     NOT_FOUND_ARTICLE_CONTENT_EXCEPTION("N003", "아티클의 컨텐츠가 존재하지 않습니다."),
     NOT_FOUND_CHALLENGE_EXCEPTION("N004", "존재하지 않는 챌린지입니다."),
     NOT_FOUND_ARTICLE_EXCEPTION("N005", "삭제되었거나 존재하지 않는 아티클입니다."),
