@@ -8,4 +8,6 @@ interface MemberRepositoryCustom {
     fun findMemberById(id: Long): Member?
     fun findMemberBySocialIdAndSocialType(socialId: String, socialType: MemberSocialType): Member?
     fun existBySocialIdAndSocialType(socialId: String, socialType: MemberSocialType): Boolean
+    fun existsByNickname(nickname: String): Boolean
+
 }
