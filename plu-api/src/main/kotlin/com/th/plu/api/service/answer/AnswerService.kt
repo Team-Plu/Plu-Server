@@ -55,7 +55,8 @@ class AnswerService(
 
     @Transactional(readOnly = true)
     fun retrieveEveryAnswersWithCursor(lastAnswerId: Long, pageSize: Long): EveryAnswerRetrievePageResponses {
-        val answerInfos = answerRepository.findEveryAnswersWithCursorAndPageSize(lastAnswerId, pageSize)
+        val todayQuestionId = questionExplorer.findTodayQuestion().id
+        val answerInfos = answerRepository.findEveryAnswersWithCursorAndPageSize(todayQuestionId!!, lastAnswerId, pageSize)
         return EveryAnswerRetrievePageResponses(answerInfos)
     }
 }

@@ -6,5 +6,5 @@ import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponse
 interface AnswerRepositoryCustom {
     fun findAnswerById(id: Long): Answer?
 
-    fun findEveryAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<EveryAnswerRetrievePageResponse>
+    fun findEveryAnswersWithCursorAndPageSize(questionId: Long, lastAnswerId: Long, pageSize: Long): List<EveryAnswerRetrievePageResponse>
 }
