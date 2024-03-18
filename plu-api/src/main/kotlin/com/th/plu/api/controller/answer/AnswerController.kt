@@ -3,9 +3,9 @@ package com.th.plu.api.controller.answer
 import com.th.plu.api.config.interceptor.Auth
 import com.th.plu.api.config.resolver.MemberId
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
-import com.th.plu.api.controller.answer.dto.response.EveryAnswerRetrievePageNationResponses
 import com.th.plu.api.service.answer.AnswerService
 import com.th.plu.common.dto.response.ApiResponse
+import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponses
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
@@ -45,7 +45,7 @@ class AnswerController(
     fun paginateAnswersByCursor(
             @RequestParam lastAnswerId: Long,
             @RequestParam pageSize: Long,
-    ): ApiResponse<EveryAnswerRetrievePageNationResponses> {
+    ): ApiResponse<EveryAnswerRetrievePageResponses> {
         return ApiResponse.success(answerService.retrieveEveryAnswersWithCursor(lastAnswerId, pageSize))
     }
 }

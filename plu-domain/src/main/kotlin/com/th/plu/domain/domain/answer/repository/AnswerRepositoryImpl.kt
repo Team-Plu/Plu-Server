@@ -1,9 +1,10 @@
 package com.th.plu.domain.domain.answer.repository
 
-import com.querydsl.core.Tuple
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.th.plu.domain.domain.answer.Answer
 import com.th.plu.domain.domain.answer.QAnswer.answer
+import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponse
+import com.th.plu.domain.domain.answer.dto.QEveryAnswerRetrievePageResponse
 import com.th.plu.domain.domain.like.QLike.like
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -19,12 +20,12 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
                 .fetchOne()
     }
 
-    override fun findEveryAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<Tuple> {
+    override fun findEveryAnswersWithCursorAndPageSize(lastAnswerId: Long, pageSize: Long): List<EveryAnswerRetrievePageResponse> {
         val startOfDay = LocalDateTime.of(LocalDateTime.now().minusDays(1).toLocalDate(), LocalTime.MAX)
         val endOfDay = LocalDateTime.of(LocalDateTime.now().plusDays(1).toLocalDate(), LocalTime.MIN)
 
         return queryFactory
-                .select(answer.id, like.answer.id.count(), answer.content)
+                .select(QEveryAnswerRetrievePageResponse(answer.id, like.answer.id.count(), answer.content))
                 .from(answer)
                 .leftJoin(like).on(like.answer.id.eq(answer.id))
                 .where(

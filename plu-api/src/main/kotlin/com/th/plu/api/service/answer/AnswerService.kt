@@ -1,8 +1,8 @@
 package com.th.plu.api.service.answer
 
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
-import com.th.plu.api.controller.answer.dto.response.EveryAnswerRetrievePageNationResponses
 import com.th.plu.api.service.like.LikeValidator
+import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponses
 import com.th.plu.domain.domain.answer.explorer.AnswerExplorer
 import com.th.plu.domain.domain.answer.explorer.QuestionExplorer
 import com.th.plu.domain.domain.answer.repository.AnswerRepository
@@ -54,9 +54,8 @@ class AnswerService(
     }
 
     @Transactional(readOnly = true)
-    fun retrieveEveryAnswersWithCursor(lastAnswerId: Long, pageSize: Long): EveryAnswerRetrievePageNationResponses {
+    fun retrieveEveryAnswersWithCursor(lastAnswerId: Long, pageSize: Long): EveryAnswerRetrievePageResponses {
         val answerInfos = answerRepository.findEveryAnswersWithCursorAndPageSize(lastAnswerId, pageSize)
-
-        return EveryAnswerRetrievePageNationResponses.fromAnswerInfos(answerInfos)
+        return EveryAnswerRetrievePageResponses(answerInfos)
     }
 }
