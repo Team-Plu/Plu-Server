@@ -26,7 +26,7 @@ class AnswerService(
     }
 
     @Transactional
-    fun likeAnswerById(memberId: Long, answerId: Long) {
+    fun createLike(memberId: Long, answerId: Long) {
         val member = memberExplorer.findMemberById(memberId)
         val answer = answerExplorer.findAnswerById(answerId)
 
@@ -35,7 +35,7 @@ class AnswerService(
     }
 
     @Transactional
-    fun dislikeAnswerById(memberId: Long, answerId: Long) {
+    fun deleteLike(memberId: Long, answerId: Long) {
         val member = memberExplorer.findMemberById(memberId)
         val answer = answerExplorer.findAnswerById(answerId)
 

@@ -26,7 +26,7 @@ class AnswerController(
     @Operation(summary = "[인증] 답변 공감")
     @PostMapping("/v1/answer/like/{answerId}")
     fun likeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
-        answerService.likeAnswerById(memberId, answerId)
+        answerService.createLike(memberId, answerId)
         return ApiResponse.success()
     }
 
@@ -34,7 +34,7 @@ class AnswerController(
     @Operation(summary = "[인증] 답변 공감 취소")
     @DeleteMapping("/v1/answer/like/{answerId}")
     fun dislikeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
-        answerService.dislikeAnswerById(memberId, answerId)
+        answerService.deleteLike(memberId, answerId)
         return ApiResponse.success()
     }
 }
