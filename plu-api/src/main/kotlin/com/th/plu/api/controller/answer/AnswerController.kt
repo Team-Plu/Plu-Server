@@ -7,10 +7,7 @@ import com.th.plu.api.service.answer.AnswerService
 import com.th.plu.common.dto.response.ApiResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Answer")
 @RestController
@@ -19,9 +16,25 @@ class AnswerController(
         private val answerService: AnswerService
 ) {
     @Auth
-    @Operation(summary = "답변 조회")
+    @Operation(summary = "[인증] 질문 답변 조회")
     @GetMapping("/v1/answer/{answerId}")
-    fun findAnswerById(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<AnswerInfoResponse> {
-        return ApiResponse.success(answerService.findAnswerInfoById(answerId, memberId))
+    fun findAnswerInfoById(@PathVariable answerId: Long): ApiResponse<AnswerInfoResponse> {
+        return ApiResponse.success(answerService.findAnswerInfoById(answerId))
+    }
+
+    @Auth
+    @Operation(summary = "[인증] 질문 답변 공감")
+    @PostMapping("/v1/answer/like/{answerId}")
+    fun likeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
+        answerService.createLike(memberId, answerId)
+        return ApiResponse.success()
+    }
+
+    @Auth
+    @Operation(summary = "[인증] 질문 답변 공감 취소")
+    @DeleteMapping("/v1/answer/like/{answerId}")
+    fun dislikeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
+        answerService.deleteLike(memberId, answerId)
+        return ApiResponse.success()
     }
 }
