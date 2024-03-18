@@ -16,14 +16,14 @@ class AnswerController(
         private val answerService: AnswerService
 ) {
     @Auth
-    @Operation(summary = "[인증] 답변 조회")
+    @Operation(summary = "[인증] 질문 답변 조회")
     @GetMapping("/v1/answer/{answerId}")
     fun findAnswerInfoById(@PathVariable answerId: Long): ApiResponse<AnswerInfoResponse> {
         return ApiResponse.success(answerService.findAnswerInfoById(answerId))
     }
 
     @Auth
-    @Operation(summary = "[인증] 답변 공감")
+    @Operation(summary = "[인증] 질문 답변 공감")
     @PostMapping("/v1/answer/like/{answerId}")
     fun likeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
         answerService.createLike(memberId, answerId)
@@ -31,7 +31,7 @@ class AnswerController(
     }
 
     @Auth
-    @Operation(summary = "[인증] 답변 공감 취소")
+    @Operation(summary = "[인증] 질문 답변 공감 취소")
     @DeleteMapping("/v1/answer/like/{answerId}")
     fun dislikeAnswer(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<Any> {
         answerService.deleteLike(memberId, answerId)
