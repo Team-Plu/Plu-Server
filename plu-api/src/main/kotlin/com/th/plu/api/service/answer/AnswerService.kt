@@ -4,6 +4,7 @@ import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
 import com.th.plu.api.controller.answer.dto.response.EveryAnswerRetrievePageNationResponses
 import com.th.plu.api.service.like.LikeValidator
 import com.th.plu.domain.domain.answer.explorer.AnswerExplorer
+import com.th.plu.domain.domain.answer.explorer.QuestionExplorer
 import com.th.plu.domain.domain.answer.repository.AnswerRepository
 import com.th.plu.domain.domain.like.Like
 import com.th.plu.domain.domain.like.explorer.LikeExplorer
@@ -16,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional
 class AnswerService(
         private val answerExplorer: AnswerExplorer,
         private val answerRepository: AnswerRepository,
+        private val answerValidator: AnswerValidator,
         private val likeRepository: LikeRepository,
         private val likeExplorer: LikeExplorer,
         private val likeValidator: LikeValidator,
-        private val memberExplorer: MemberExplorer
+        private val memberExplorer: MemberExplorer,
+        private val questionExplorer: QuestionExplorer
 ) {
     @Transactional(readOnly = true)
     fun findAnswerInfoById(answerId: Long, memberId: Long): AnswerInfoResponse {

@@ -19,8 +19,8 @@ class AnswerController(
     @Auth
     @Operation(summary = "[인증] 질문 답변 조회")
     @GetMapping("/v1/answer/{answerId}")
-    fun findAnswerInfoById(@PathVariable answerId: Long): ApiResponse<AnswerInfoResponse> {
-        return ApiResponse.success(answerService.findAnswerInfoById(answerId))
+    fun findAnswerInfoById(@PathVariable answerId: Long, @MemberId memberId: Long): ApiResponse<AnswerInfoResponse> {
+        return ApiResponse.success(answerService.findAnswerInfoById(answerId = answerId, memberId = memberId))
     }
 
     @Auth
@@ -42,7 +42,7 @@ class AnswerController(
     @Auth
     @Operation(summary = "[인증] 모두의 답변 조회")
     @GetMapping("/v1/answers")
-    fun pageAnswers(
+    fun paginateAnswersByCursor(
             @RequestParam lastAnswerId: Long,
             @RequestParam pageSize: Long,
     ): ApiResponse<EveryAnswerRetrievePageNationResponses> {
