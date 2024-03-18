@@ -19,10 +19,14 @@ class AnswerService(
         private val memberExplorer: MemberExplorer
 ) {
     @Transactional(readOnly = true)
-    fun findAnswerInfoById(id: Long): AnswerInfoResponse {
-        val answer = answerExplorer.findAnswerById(id)
+    fun findAnswerInfoById(answerId: Long, memberId: Long): AnswerInfoResponse {
+        val answer = answerExplorer.findAnswerById(answerId)
+        if (!answer.isPublic) {
+            answerValidator.validateIsMemberOwnerOfAnswer(answerId, memberId)
+        }
+        val question = questionExplorer.findQuestionById(answer.getQuestionId())
 
-        return AnswerInfoResponse.of(answer.question, answer)
+        return AnswerInfoResponse.of(question, answer)
     }
 
     @Transactional

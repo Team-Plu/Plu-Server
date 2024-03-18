@@ -14,7 +14,7 @@ else
   exit 1
 fi
 
-echo "set \$service_url http://127.0.0.1:${TARGET_PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
+echo "set \$service_url http://127.0.0.1:${TARGET_PORT};" >> /home/ubuntu/plu-api/deploy.log | sudo tee /etc/nginx/conf.d/service-url.inc
 
 echo "[$NOW_TIME] Now Nginx proxies to ${TARGET_PORT}." >> /home/ubuntu/plu-api/deploy.log
 sudo service nginx reload
