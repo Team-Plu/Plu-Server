@@ -43,8 +43,8 @@ class AnswerController(
     @Operation(summary = "[인증] 모두의 답변 조회")
     @GetMapping("/v1/answers")
     fun paginateAnswersByCursor(
-            @RequestParam lastAnswerId: Long,
-            @RequestParam pageSize: Long,
+            @RequestParam(defaultValue = Long.MAX_VALUE.toString()) lastAnswerId: Long,
+            @RequestParam(defaultValue = "10") pageSize: Long,
     ): ApiResponse<EveryAnswerRetrievePageResponses> {
         return ApiResponse.success(answerService.retrieveEveryAnswersWithCursor(lastAnswerId, pageSize))
     }
