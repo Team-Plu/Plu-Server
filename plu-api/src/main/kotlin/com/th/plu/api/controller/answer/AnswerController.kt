@@ -40,6 +40,7 @@ class AnswerController(
         return ApiResponse.success()
     }
 
+    @Auth
     @Operation(summary = "[인증] 모두의 답변 정보 조회")
     @GetMapping("/v1/answers/info")
     fun findEveryAnswerInfo(
@@ -47,6 +48,7 @@ class AnswerController(
         return ApiResponse.success(answerService.findEveryAnswerInfo())
     }
 
+    @Auth
     @Operation(summary = "[인증] 모두의 답변 조회")
     @GetMapping("/v1/answers")
     fun paginateAnswersByCursor(
