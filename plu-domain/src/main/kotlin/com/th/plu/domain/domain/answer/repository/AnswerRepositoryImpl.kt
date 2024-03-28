@@ -25,12 +25,20 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
                 .leftJoin(like).on(like.answer.id.eq(answer.id))
                 .where(
                         answer.isPublic.eq(true),
+                        answer.question.id.eq(questionId),
                         answer.id.lt(lastAnswerId),
-                        answer.question.id.eq(questionId)
                 )
                 .groupBy(answer.id)
                 .orderBy(answer.id.desc())
                 .limit(pageSize)
                 .fetch()
+    }
+
+    override fun findPublicAnswerCountByQuestionId(questionId: Long): Long {
+        return queryFactory
+                .select(answer.id.count())
+                .from(answer)
+                .where(answer.question.id.eq(questionId))
+                .fetchOne()!!
     }
 }

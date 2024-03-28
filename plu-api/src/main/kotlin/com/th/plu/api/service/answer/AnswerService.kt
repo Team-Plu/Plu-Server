@@ -1,6 +1,7 @@
 package com.th.plu.api.service.answer
 
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
+import com.th.plu.api.controller.answer.dto.response.EveryAnswerInfoResponse
 import com.th.plu.api.service.like.LikeValidator
 import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponses
 import com.th.plu.domain.domain.answer.explorer.AnswerExplorer
@@ -58,5 +59,13 @@ class AnswerService(
         val todayQuestionId = questionExplorer.findTodayQuestion().id
         val answerInfos = answerRepository.findEveryAnswersWithCursorAndPageSize(todayQuestionId!!, lastAnswerId, pageSize)
         return EveryAnswerRetrievePageResponses(answerInfos)
+    }
+
+    @Transactional(readOnly = true)
+    fun findEveryAnswerInfo(): EveryAnswerInfoResponse {
+        val todayQuestion = questionExplorer.findTodayQuestion()
+        val answerCount = answerRepository.findPublicAnswerCountByQuestionId(todayQuestion.id!!)
+
+        return EveryAnswerInfoResponse.of(todayQuestion, answerCount)
     }
 }

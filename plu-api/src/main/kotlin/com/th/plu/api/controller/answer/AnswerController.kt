@@ -3,6 +3,7 @@ package com.th.plu.api.controller.answer
 import com.th.plu.api.config.interceptor.Auth
 import com.th.plu.api.config.resolver.MemberId
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
+import com.th.plu.api.controller.answer.dto.response.EveryAnswerInfoResponse
 import com.th.plu.api.service.answer.AnswerService
 import com.th.plu.common.dto.response.ApiResponse
 import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponses
@@ -39,7 +40,13 @@ class AnswerController(
         return ApiResponse.success()
     }
 
-    @Auth
+    @Operation(summary = "[인증] 모두의 답변 정보 조회")
+    @GetMapping("/v1/answers/info")
+    fun findEveryAnswerInfo(
+    ): ApiResponse<EveryAnswerInfoResponse> {
+        return ApiResponse.success(answerService.findEveryAnswerInfo())
+    }
+
     @Operation(summary = "[인증] 모두의 답변 조회")
     @GetMapping("/v1/answers")
     fun paginateAnswersByCursor(
