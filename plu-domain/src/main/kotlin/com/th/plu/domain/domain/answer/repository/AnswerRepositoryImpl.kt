@@ -3,8 +3,8 @@ package com.th.plu.domain.domain.answer.repository
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.th.plu.domain.domain.answer.Answer
 import com.th.plu.domain.domain.answer.QAnswer.answer
-import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponse
-import com.th.plu.domain.domain.answer.dto.QEveryAnswerRetrievePageResponse
+import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrieveResponse
+import com.th.plu.domain.domain.answer.dto.QEveryAnswerRetrieveResponse
 import com.th.plu.domain.domain.like.QLike.like
 import org.springframework.stereotype.Repository
 
@@ -18,9 +18,9 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
                 .fetchOne()
     }
 
-    override fun findEveryAnswersWithCursorAndPageSize(questionId: Long, lastAnswerId: Long, pageSize: Long): List<EveryAnswerRetrievePageResponse> {
+    override fun findEveryAnswersWithCursorAndPageSize(questionId: Long, lastAnswerId: Long, pageSize: Long): List<EveryAnswerRetrieveResponse> {
         return queryFactory
-                .select(QEveryAnswerRetrievePageResponse(answer.id, like.answer.id.count(), answer.content))
+                .select(QEveryAnswerRetrieveResponse(answer.id, like.answer.id.count(), answer.content))
                 .from(answer)
                 .leftJoin(like).on(like.answer.id.eq(answer.id))
                 .where(
@@ -34,11 +34,26 @@ class AnswerRepositoryImpl(private val queryFactory: JPAQueryFactory) : AnswerRe
                 .fetch()
     }
 
-    override fun findPublicAnswerCountByQuestionId(questionId: Long): Long {
+    override fun findPublicAnswersCountByQuestionId(questionId: Long): Long {
         return queryFactory
                 .select(answer.id.count())
                 .from(answer)
                 .where(answer.question.id.eq(questionId))
                 .fetchOne()!!
+    }
+
+    override fun findPublicAnswersLikeTopN(questionId: Long, getCount: Long): List<EveryAnswerRetrieveResponse> {
+        return queryFactory
+                .select(QEveryAnswerRetrieveResponse(answer.id, like.answer.id.count(), answer.content))
+                .from(answer)
+                .leftJoin(like).on(like.answer.id.eq(answer.id))
+                .where(
+                        answer.isPublic.eq(true),
+                        answer.question.id.eq(questionId)
+                )
+                .groupBy(answer.id)
+                .orderBy(like.answer.id.count().desc())
+                .limit(getCount)
+                .fetch()
     }
 }

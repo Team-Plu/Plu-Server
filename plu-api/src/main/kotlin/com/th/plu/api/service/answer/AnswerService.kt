@@ -3,7 +3,7 @@ package com.th.plu.api.service.answer
 import com.th.plu.api.controller.answer.dto.response.AnswerInfoResponse
 import com.th.plu.api.controller.answer.dto.response.EveryAnswerInfoResponse
 import com.th.plu.api.service.like.LikeValidator
-import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrievePageResponses
+import com.th.plu.domain.domain.answer.dto.EveryAnswerRetrieveResponses
 import com.th.plu.domain.domain.answer.explorer.AnswerExplorer
 import com.th.plu.domain.domain.answer.explorer.QuestionExplorer
 import com.th.plu.domain.domain.answer.repository.AnswerRepository
@@ -55,17 +55,24 @@ class AnswerService(
     }
 
     @Transactional(readOnly = true)
-    fun retrieveEveryAnswersWithCursor(lastAnswerId: Long, pageSize: Long): EveryAnswerRetrievePageResponses {
+    fun findEveryAnswersWithCursor(lastAnswerId: Long, pageSize: Long): EveryAnswerRetrieveResponses {
         val todayQuestionId = questionExplorer.findTodayQuestion().id
-        val answerInfos = answerRepository.findEveryAnswersWithCursorAndPageSize(todayQuestionId!!, lastAnswerId, pageSize)
-        return EveryAnswerRetrievePageResponses(answerInfos)
+        val answers = answerRepository.findEveryAnswersWithCursorAndPageSize(todayQuestionId!!, lastAnswerId, pageSize)
+        return EveryAnswerRetrieveResponses(answers)
     }
 
     @Transactional(readOnly = true)
     fun findEveryAnswerInfo(): EveryAnswerInfoResponse {
         val todayQuestion = questionExplorer.findTodayQuestion()
-        val answerCount = answerRepository.findPublicAnswerCountByQuestionId(todayQuestion.id!!)
+        val answerCount = answerRepository.findPublicAnswersCountByQuestionId(todayQuestion.id!!)
 
         return EveryAnswerInfoResponse.of(todayQuestion, answerCount)
+    }
+
+    fun findEveryAnswersLikeTopN(getCount: Long): EveryAnswerRetrieveResponses {
+        val todayQuestion = questionExplorer.findTodayQuestion()
+        val answers = answerRepository.findPublicAnswersLikeTopN(todayQuestion.id!!, getCount)
+
+        return EveryAnswerRetrieveResponses(answers)
     }
 }
